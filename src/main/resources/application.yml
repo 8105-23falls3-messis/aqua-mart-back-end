@@ -1,0 +1,27 @@
+server:
+  port: 8081
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: fall23g1messis
+    url: jdbc:mysql://3.14.253.192:3306/aqua?useSSL=false
+    #?characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&allowMultiQueries=true
+#
+#    initialSize: 10
+#    minIdle: 5
+#    maxActive: 30
+#    maxWait: 60000
+#
+#    timeBetweenEvictionRunsMillis: 60000
+#
+#    minEvictableIdleTimeMillis: 30000
+
+
+## mybatis 配置
+mybatis:
+  type-aliases-package: com.aqua.fall23g1
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    call-setters-on-nulls: true
+
