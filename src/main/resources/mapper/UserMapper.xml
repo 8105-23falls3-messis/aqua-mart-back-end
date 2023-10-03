@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aqua.fall23g1.mapper.UserMapper">
+
+    <insert id="insertUserData">
+        INSERT INTO user
+        (first_name,
+         mid_name,
+         last_name,
+         email,
+         date_of_birth,
+         address,
+         city,
+         postal_code,
+         password,
+         id_role)
+        VALUES (#{firstName},
+                #{midName},
+                #{lastName},
+                #{email},
+                #{dateOfBirth},
+                #{address},
+                #{city},
+                #{postalCode},
+                #{password},
+                #{idRole})
+    </insert>
+    <select id="queryUser" resultType="com.aqua.fall23g1.entity.User">
+        SELECT id            AS id,
+               first_name    AS firstName,
+               mid_name      AS midName,
+               last_name     AS lastName,
+               email         AS email,
+               date_of_birth AS dateOfBirth,
+               address       AS address,
+               city          AS city,
+               postal_code   AS postalCode,
+               id_role       AS idRole
+        FROM user
+        WHERE email = #{email}
+          AND password = #{password}
+    </select>
+</mapper>
