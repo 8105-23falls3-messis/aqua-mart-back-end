@@ -19,17 +19,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Role> getAllRoles() {
-        return null;
+        return userMapper.getAllRoles();
     }
 
     @Override
     public int register(User user) {
         try {
             userMapper.insertUserData(user);
-            //register succeed return 1
+            // register succeed return 1
             return 1;
         } catch (Exception e) {
-            //register failed return 0
+            // register failed return 0
             return 0;
         }
     }

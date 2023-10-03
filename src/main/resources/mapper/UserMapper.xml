@@ -40,4 +40,9 @@
         WHERE email = #{email}
           AND password = #{password}
     </select>
+    <select id="getAllRoles" resultType="com.aqua.fall23g1.entity.Role">
+        SELECT id        AS id,
+               role_name AS roleName
+        FROM role
+    </select>
 </mapper>
