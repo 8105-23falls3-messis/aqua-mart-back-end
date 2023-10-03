@@ -29,12 +29,12 @@ public class UserController {
         JSONObject loginRes = new JSONObject();
         User user = userService.getUserByLoginData(loginReq);
         if (user == null) {
-            loginRes.put("status", "fail");
+            loginRes.put("code", "500");
             loginRes.put("msg", "email or password invalid");
         }
         String signToken = TokenUtil.sign(user);
-        loginRes.put("status", "success");
-        loginRes.put("token", signToken);
+        loginRes.put("code", "200");
+        loginRes.put("msg", signToken);
         return loginRes;
     }
 
