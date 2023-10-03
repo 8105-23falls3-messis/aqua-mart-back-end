@@ -40,8 +40,8 @@ public class LoginConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         List<String> excludePath = new ArrayList<>();
-        excludePath.add("/user/register");
-        excludePath.add("/user/login");
+        excludePath.add("/user/**");
+        // excludePath.add("/user/login");
         excludePath.add("/img/**");
         excludePath.add("/css/**");
         excludePath.add("/static/**");

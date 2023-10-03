@@ -1,5 +1,7 @@
 package com.aqua.fall23g1.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -7,9 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson2.JSONObject;
+import com.aqua.fall23g1.constant.Status;
 import com.aqua.fall23g1.entity.LoginReq;
+import com.aqua.fall23g1.entity.Role;
 import com.aqua.fall23g1.entity.User;
 import com.aqua.fall23g1.service.UserService;
+import com.aqua.fall23g1.utils.JSONUtil;
 import com.aqua.fall23g1.utils.TokenUtil;
 
 @RestController
@@ -19,29 +24,34 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("roles")
+    public JSONObject getAllRoles() {
+        List<Role> roles = userService.getAllRoles();
+        return JSONUtil.resp(Status.SUCCESS, "success", roles);
+    }
+
     @PostMapping("register")
-    public int register(User user) {
-        return userService.register(user);
+    public JSONObject register(User user) {
+        int register = userService.register(user);
+        JSONObject resp;
+        if (register == 0) {
+            resp = JSONUtil.resp(Status.FAILED, "Registration failed!", null);
+        } else {
+            resp = JSONUtil.resp(Status.SUCCESS, "Registration succeed.", null);
+        }
+        return resp;
     }
 
     @PostMapping("login")
     public JSONObject login(LoginReq loginReq) {
-        JSONObject loginRes = new JSONObject();
+        JSONObject resp;
         User user = userService.getUserByLoginData(loginReq);
         if (user == null) {
-            loginRes.put("code", "500");
-            loginRes.put("msg", "email or password invalid");
+            resp = JSONUtil.resp(Status.FAILED, "Email or password invalid.", null);
+        } else {
+            String signToken = TokenUtil.sign(user);
+            resp = JSONUtil.resp(Status.SUCCESS, "Login succeed.", signToken);
         }
-        String signToken = TokenUtil.sign(user);
-        loginRes.put("code", "200");
-        loginRes.put("msg", signToken);
-        return loginRes;
-    }
-
-    @GetMapping("/tokenTest")
-    public JSONObject tokenTest() {
-        JSONObject test = new JSONObject();
-        test.put("msg", "you get access to other interface");
-        return test;
+        return resp;
     }
 }
