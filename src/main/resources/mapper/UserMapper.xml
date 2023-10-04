@@ -11,6 +11,8 @@
          date_of_birth,
          address,
          city,
+         province,
+         country,
          postal_code,
          password,
          id_role)
@@ -21,6 +23,8 @@
                 #{dateOfBirth},
                 #{address},
                 #{city},
+                #{province},
+                #{country},
                 #{postalCode},
                 #{password},
                 #{idRole})
@@ -34,15 +38,19 @@
                date_of_birth AS dateOfBirth,
                address       AS address,
                city          AS city,
+               province      AS province,
+               country       AS country,
                postal_code   AS postalCode,
                id_role       AS idRole
         FROM user
         WHERE email = #{email}
           AND password = #{password}
     </select>
-    <select id="getAllRoles" resultType="com.aqua.fall23g1.entity.Role">
-        SELECT id        AS id,
-               role_name AS roleName
-        FROM role
+    <select id="countUser" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM user
+        WHERE email = #{email}
+          AND id_role = #{idRole}
     </select>
+
 </mapper>

@@ -30,8 +30,14 @@ public class UserController {
 
     @PostMapping("register")
     public JSONObject register(@RequestBody User user) {
-        int register = userService.register(user);
         JSONObject resp;
+        int count = userService.countUser(user);
+        // An email can have each role only once
+        if (0 != count) {
+            resp = JSONUtil.resp(Status.FAILED, "Account exist!", null);
+            return resp;
+        }
+        int register = userService.register(user);
         if (register == 0) {
             resp = JSONUtil.resp(Status.FAILED, "Registration failed!", null);
         } else {

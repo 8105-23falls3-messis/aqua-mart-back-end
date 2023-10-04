@@ -18,6 +18,8 @@ public class User {
     private Date dateOfBirth;
     private String address;
     private String city;
+    private String province;
+    private String country;
     private String postalCode;
     private String password;
     private int idRole;

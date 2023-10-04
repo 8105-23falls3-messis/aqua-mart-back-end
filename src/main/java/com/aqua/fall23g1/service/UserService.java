@@ -10,6 +10,8 @@ public interface UserService {
 
     int register(User user);
 
+    int countUser(User user);
+
     User getUserByLoginData(LoginReq loginReq);
 
     List<Role> getAllRoles();

@@ -13,7 +13,10 @@ public interface UserMapper {
 
     int insertUserData(User user);
 
+    int countUser(User user);
+
     User queryUser(LoginReq loginReq);
 
     List<Role> getAllRoles();
+
 }

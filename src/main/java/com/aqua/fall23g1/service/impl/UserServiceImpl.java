@@ -23,6 +23,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int countUser(User user) {
+        return userMapper.countUser(user);
+    }
+
+    @Override
     public int register(User user) {
         try {
             userMapper.insertUserData(user);
