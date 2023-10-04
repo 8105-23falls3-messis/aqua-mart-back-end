@@ -26,16 +26,16 @@
                 #{idRole})
     </insert>
     <select id="queryUser" resultType="com.aqua.fall23g1.entity.User">
-        SELECT id            AS id,
-               first_name    AS firstName,
-               mid_name      AS midName,
-               last_name     AS lastName,
-               email         AS email,
-               date_of_birth AS dateOfBirth,
-               address       AS address,
-               city          AS city,
-               postal_code   AS postalCode,
-               id_role       AS idRole
+        SELECT id                                     AS id,
+               first_name                             AS firstName,
+               mid_name                               AS midName,
+               last_name                              AS lastName,
+               email                                  AS email,
+               DATE_FORMAT(date_of_birth, '%m-%d-%Y') AS dateOfBirth,
+               address                                AS address,
+               city                                   AS city,
+               postal_code                            AS postalCode,
+               id_role                                AS idRole
         FROM user
         WHERE email = #{email}
           AND password = #{password}
