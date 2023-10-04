@@ -3,10 +3,7 @@ package com.aqua.fall23g1.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.aqua.fall23g1.constant.Status;
@@ -31,7 +28,7 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public JSONObject register(User user) {
+    public JSONObject register(@RequestBody User user) {
         int register = userService.register(user);
         JSONObject resp;
         if (register == 0) {
@@ -43,7 +40,7 @@ public class UserController {
     }
 
     @PostMapping("login")
-    public JSONObject login(LoginReq loginReq) {
+    public JSONObject login(@RequestBody LoginReq loginReq) {
         JSONObject resp;
         User user = userService.getUserByLoginData(loginReq);
         if (user == null) {
