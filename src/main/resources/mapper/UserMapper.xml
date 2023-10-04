@@ -45,6 +45,7 @@
         FROM user
         WHERE email = #{email}
           AND password = #{password}
+          AND id_role = #{idRole}
     </select>
     <select id="countUser" resultType="java.lang.Integer">
         SELECT COUNT(1)
