@@ -16,6 +16,7 @@ import com.aqua.fall23g1.utils.TokenUtil;
 
 @RestController
 @RequestMapping("/user")
+
 public class UserController {
 
     @Autowired
@@ -47,7 +48,10 @@ public class UserController {
             resp = JSONUtil.resp(Status.FAILED, "Email or password invalid.", null);
         } else {
             String signToken = TokenUtil.sign(user);
-            resp = JSONUtil.resp(Status.SUCCESS, "Login succeed.", signToken);
+            JSONObject body = new JSONObject();
+            body.put("token", signToken);
+            body.put("user", user);
+            resp = JSONUtil.resp(Status.SUCCESS, "Login succeed.", body);
         }
         return resp;
     }
