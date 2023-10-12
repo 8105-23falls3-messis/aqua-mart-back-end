@@ -5,10 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.aqua.fall23g1.entity.LoginReq;
-import com.aqua.fall23g1.entity.Role;
-import com.aqua.fall23g1.entity.TestReqParam;
-import com.aqua.fall23g1.entity.User;
+import com.aqua.fall23g1.entity.*;
 import com.aqua.fall23g1.mapper.UserMapper;
 import com.aqua.fall23g1.service.UserService;
 import com.github.pagehelper.PageHelper;
@@ -53,5 +50,15 @@ public class UserServiceImpl implements UserService {
         PageHelper.startPage(param.getPageNum(), param.getPageSize());
         List<Role> rolesByPaging = userMapper.getAllRoles();
         return rolesByPaging;
+    }
+
+    @Override
+    public void addTokenHistory(TokenHistory tokenHistory) {
+        userMapper.addTokenHistory(tokenHistory);
+    }
+
+    @Override
+    public void removeTokenHistory(String token) {
+        userMapper.removeToken(token);
     }
 }

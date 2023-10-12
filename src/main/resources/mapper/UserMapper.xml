@@ -58,5 +58,21 @@
                role_name AS roleName
         FROM role
     </select>
-
+    <select id="getTokenCount" resultType="java.lang.Integer">
+        SELECT COUNT(1)
+        FROM token_history
+        WHERE token = #{token}
+    </select>
+    <insert id="addTokenHistory">
+        INSERT INTO token_history
+        (token,
+         user_name)
+        VALUES (#{token},
+                #{userName})
+    </insert>
+    <delete id="removeToken">
+        DELETE
+        FROM token_history
+        WHERE token = #{token}
+    </delete>
 </mapper>

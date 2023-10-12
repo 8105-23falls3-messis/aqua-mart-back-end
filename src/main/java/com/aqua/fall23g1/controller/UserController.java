@@ -2,15 +2,14 @@ package com.aqua.fall23g1.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.aqua.fall23g1.constant.Status;
-import com.aqua.fall23g1.entity.LoginReq;
-import com.aqua.fall23g1.entity.Role;
-import com.aqua.fall23g1.entity.TestReqParam;
-import com.aqua.fall23g1.entity.User;
+import com.aqua.fall23g1.entity.*;
 import com.aqua.fall23g1.service.UserService;
 import com.aqua.fall23g1.utils.JSONUtil;
 import com.aqua.fall23g1.utils.TokenUtil;
@@ -42,7 +41,7 @@ public class UserController {
         if (register == 0) {
             resp = JSONUtil.resp(Status.FAILED, "Registration failed!", null);
         } else {
-            resp = JSONUtil.resp(Status.SUCCESS, "Registration succeed.", null);
+            resp = JSONUtil.resp(Status.SUCCESS, "Registration successfully.", null);
         }
         return resp;
     }
@@ -58,15 +57,21 @@ public class UserController {
             JSONObject body = new JSONObject();
             body.put("token", signToken);
             body.put("user", user);
-            resp = JSONUtil.resp(Status.SUCCESS, "Login succeed.", body);
+            TokenHistory tokenHistory = new TokenHistory();
+            tokenHistory.setToken(signToken);
+            tokenHistory.setUserName(user.getFirstName() + " " + user.getLastName());
+            // insert token history into database
+            userService.addTokenHistory(tokenHistory);
+            resp = JSONUtil.resp(Status.SUCCESS, "Login successfully.", body);
         }
         return resp;
     }
 
-    @PostMapping("loginOut")
-    public JSONObject loginOut(@RequestBody LoginReq loginReq) {
-        // TODO
-        return null;
+    @PostMapping("logOut")
+    public JSONObject loginOut(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        userService.removeTokenHistory(token);
+        return JSONUtil.resp(Status.SUCCESS, "Log out successfully.", null);
     }
 
     // for Cynthia

@@ -2,10 +2,7 @@ package com.aqua.fall23g1.service;
 
 import java.util.List;
 
-import com.aqua.fall23g1.entity.LoginReq;
-import com.aqua.fall23g1.entity.Role;
-import com.aqua.fall23g1.entity.TestReqParam;
-import com.aqua.fall23g1.entity.User;
+import com.aqua.fall23g1.entity.*;
 
 public interface UserService {
 
@@ -18,5 +15,9 @@ public interface UserService {
     List<Role> getAllRoles();
 
     List<Role> getAllRolesByPage(TestReqParam param);
+
+    void addTokenHistory(TokenHistory tokenHistory);
+
+    void removeTokenHistory(String token);
 
 }
