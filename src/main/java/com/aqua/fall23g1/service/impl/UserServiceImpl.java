@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 
 import com.aqua.fall23g1.entity.LoginReq;
 import com.aqua.fall23g1.entity.Role;
+import com.aqua.fall23g1.entity.TestReqParam;
 import com.aqua.fall23g1.entity.User;
 import com.aqua.fall23g1.mapper.UserMapper;
 import com.aqua.fall23g1.service.UserService;
+import com.github.pagehelper.PageHelper;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -42,5 +44,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUserByLoginData(LoginReq loginReq) {
         return userMapper.queryUser(loginReq);
+    }
+
+    @Override
+    public List<Role> getAllRolesByPage(TestReqParam param) {
+        // set paging param before query
+        // then we don't need to write limit key word in our query sentences
+        PageHelper.startPage(param.getPageNum(), param.getPageSize());
+        List<Role> rolesByPaging = userMapper.getAllRoles();
+        return rolesByPaging;
     }
 }

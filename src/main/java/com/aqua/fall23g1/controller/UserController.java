@@ -9,6 +9,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.aqua.fall23g1.constant.Status;
 import com.aqua.fall23g1.entity.LoginReq;
 import com.aqua.fall23g1.entity.Role;
+import com.aqua.fall23g1.entity.TestReqParam;
 import com.aqua.fall23g1.entity.User;
 import com.aqua.fall23g1.service.UserService;
 import com.aqua.fall23g1.utils.JSONUtil;
@@ -60,5 +61,19 @@ public class UserController {
             resp = JSONUtil.resp(Status.SUCCESS, "Login succeed.", body);
         }
         return resp;
+    }
+
+    @PostMapping("loginOut")
+    public JSONObject loginOut(@RequestBody LoginReq loginReq) {
+        // TODO
+        return null;
+    }
+
+    // for Cynthia
+    @GetMapping("testPaging")
+    public JSONObject testPaging(@RequestBody TestReqParam param) {
+        // use role to test paging
+        List<Role> allRolesByPage = userService.getAllRolesByPage(param);
+        return JSONUtil.resp(Status.SUCCESS, "success", allRolesByPage);
     }
 }

@@ -24,4 +24,8 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     call-setters-on-nulls: true
+#page helper
+pagehelper:
+  reasonable: true
+
 
