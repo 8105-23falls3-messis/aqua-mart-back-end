@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aqua.fall23g1.mapper.ProductMapper">
+
+    <insert id="insertProductData">
+        INSERT INTO product
+        (name,
+         description,
+         idUser,
+         <!-- idImage, -->
+         active)
+        VALUES (#{name},
+                #{description},
+                #{user.id},
+                 <!-- #{image.id},-->
+                #{active})
+    </insert>
+    
+    <update id="updateProductData">
+        UPDATE product
+        SET name=#{name}, description =#{description}
+        WHERE id= #{id}
+    </update>
+    
+    <delete id="deleteProductData">
+        DELETE
+        FROM product
+        WHERE id = #{idProduct}
+    </delete>    
+    
+    
+    <select id="getProducts" resultType="com.aqua.fall23g1.entity.Product">
+        SELECT id        AS id,
+               name AS name,
+               description AS description               
+        FROM product
+    </select>
+    
+    <resultMap id="productMap" type="com.aqua.fall23g1.entity.Product">
+	  <id property="id" column="id"/>
+	  <result property="name" column="name"/>
+	  <result property="description" column="description"/>
+	  <association property="user" javaType="User">
+	    <id property="id" column="userID"/>
+	    <result property="firstName" column="userName"/>
+	    <result property="midName" column="userMidname"/>
+	    <result property="lastName" column="userLastname"/>
+	    <result property="email" column="userEmail"/>	
+	    <result property="dateOfBirth" column="userBirth"/>
+	    <result property="address" column="userAddress"/>	
+	    <result property="city" column="userName"/>
+	    <result property="province" column="userProvince"/>	
+	    <result property="country" column="userCountry"/>
+	    <result property="postalCode" column="userPostalCode"/>	
+	    <result property="password" column="userPassword"/>
+	    <result property="idRole" column="userRoleId"/>		    	    	    	    	    	    
+	  </association>
+	</resultMap>
+
+    <select id="getProduct" resultMap="productMap">
+        SELECT p.id        AS id,
+               p.name AS name,
+               p.description AS description,  
+               u.id AS userID,
+               u.first_name AS userName,
+               u.mid_name AS userMidname,     
+               u.last_name AS userLastname,  
+               u.email AS userEmail,  
+               u.date_of_birth AS userBirth,
+               u.address   AS userAddress,
+               u.city AS userMidname,     
+               u.province AS userProvince,  
+               u.country AS userCountry,  
+               u.postal_code   AS userPostalCode,
+               u.password AS userPassword,     
+               u.id_role AS userRoleId                           
+        FROM product p, user u
+        WHERE p.idUser=u.id
+        AND p.id = #{idProduct}
+    </select>
+
+</mapper>
