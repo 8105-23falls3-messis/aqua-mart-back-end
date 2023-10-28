@@ -1,6 +1,9 @@
 server:
   port: 8081
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
@@ -27,5 +30,6 @@ mybatis:
 #page helper
 pagehelper:
   reasonable: true
+
 
 

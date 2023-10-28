@@ -41,6 +41,12 @@ public class LoginConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         List<String> excludePath = new ArrayList<>();
         excludePath.add("/user/**");
+        excludePath.add("/error");
+        excludePath.add("/swagger-ui/**");
+        excludePath.add("/swagger-resources/**");
+        excludePath.add("/swagger-ui.html");
+        excludePath.add("/v2/api-docs");
+        excludePath.add("/webjars/**");
         // excludePath.add("/user/login");
         excludePath.add("/img/**");
         excludePath.add("/css/**");
@@ -53,6 +59,7 @@ public class LoginConfig implements WebMvcConfigurer {
         excludePath.add("/*.css");
         excludePath.add("/*.json");
         excludePath.add("/*.icon");
+        excludePath.add("/*.ico");
         excludePath.add("/*.txt");
         registry.addInterceptor(userLoginInterceptor)
                 .addPathPatterns("/**")

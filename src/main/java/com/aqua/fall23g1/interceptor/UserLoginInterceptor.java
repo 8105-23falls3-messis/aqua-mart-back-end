@@ -28,6 +28,10 @@ public class UserLoginInterceptor implements HandlerInterceptor {
             return true;
         }
         response.setCharacterEncoding("utf-8");
+        System.out.println(request.getRequestURI());
+        // if (request.getRequestURI().equals("/swagger-ui.html")) {
+        // return true;
+        // }
         String token = request.getHeader("token");
         if (token != null) {
             int tokenCount = userMapper.getTokenCount(token);

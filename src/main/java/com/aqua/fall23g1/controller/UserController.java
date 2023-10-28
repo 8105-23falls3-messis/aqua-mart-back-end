@@ -14,20 +14,25 @@ import com.aqua.fall23g1.service.UserService;
 import com.aqua.fall23g1.utils.JSONUtil;
 import com.aqua.fall23g1.utils.TokenUtil;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping("/user")
-
+@Api(value = "User Management")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
+    @ApiOperation("Get all roles without param")
     @GetMapping("roles")
     public JSONObject getAllRoles() {
         List<Role> roles = userService.getAllRoles();
         return JSONUtil.resp(Status.SUCCESS, "success", roles);
     }
 
+    @ApiOperation("Register interface")
     @PostMapping("register")
     public JSONObject register(@RequestBody User user) {
         JSONObject resp;
@@ -46,6 +51,7 @@ public class UserController {
         return resp;
     }
 
+    @ApiOperation("Login interface")
     @PostMapping("login")
     public JSONObject login(@RequestBody LoginReq loginReq) {
         JSONObject resp;
@@ -67,6 +73,7 @@ public class UserController {
         return resp;
     }
 
+    @ApiOperation("Logout interface")
     @PostMapping("logOut")
     public JSONObject loginOut(HttpServletRequest request) {
         String token = request.getHeader("token");
