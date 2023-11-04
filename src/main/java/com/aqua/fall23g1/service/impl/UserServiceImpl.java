@@ -61,4 +61,14 @@ public class UserServiceImpl implements UserService {
     public void removeTokenHistory(String token) {
         userMapper.removeToken(token);
     }
+
+    @Override
+    public User getUserById(String userId) {
+        return userMapper.getUserById(userId);
+    }
+
+    @Override
+    public void updateUser(User user) {
+        userMapper.updateUser(user);
+    }
 }

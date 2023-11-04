@@ -29,6 +29,20 @@
                 #{password},
                 #{idRole})
     </insert>
+    <update id="updateUser">
+        UPDATE user
+        SET first_name    = #{firstName},
+            mid_name      = #{midName},
+            last_name     = #{lastName},
+            email         = #{email},
+            date_of_birth = #{dateOfBirth},
+            address       = #{address},
+            city          = #{city},
+            province      = #{province},
+            country       = #{country},
+            postal_code   = #{postalCode}
+        WHERE id = #{id}
+    </update>
     <select id="queryUser" resultType="com.aqua.fall23g1.entity.User">
         SELECT id            AS id,
                first_name    AS firstName,
@@ -62,6 +76,22 @@
         SELECT COUNT(1)
         FROM token_history
         WHERE token = #{token}
+    </select>
+    <select id="getUserById" resultType="com.aqua.fall23g1.entity.User">
+        SELECT id            AS id,
+               first_name    AS firstName,
+               mid_name      AS midName,
+               last_name     AS lastName,
+               email         AS email,
+               date_of_birth AS dateOfBirth,
+               address       AS address,
+               city          AS city,
+               province      AS province,
+               country       AS country,
+               postal_code   AS postalCode,
+               id_role       AS idRole
+        FROM user
+        WHERE id = #{userId}
     </select>
     <insert id="addTokenHistory">
         INSERT INTO token_history

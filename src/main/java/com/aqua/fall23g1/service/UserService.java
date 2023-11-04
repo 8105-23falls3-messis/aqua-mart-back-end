@@ -20,4 +20,7 @@ public interface UserService {
 
     void removeTokenHistory(String token);
 
+    User getUserById(String userId);
+
+    void updateUser(User user);
 }

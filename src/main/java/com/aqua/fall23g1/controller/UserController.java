@@ -81,6 +81,20 @@ public class UserController {
         return JSONUtil.resp(Status.SUCCESS, "Log out successfully.", null);
     }
 
+    @ApiOperation("Get the user profile")
+    @GetMapping("userProfile")
+    public JSONObject userProfile(@RequestParam("userId") String userId) {
+        User user = userService.getUserById(userId);
+        return JSONUtil.resp(Status.SUCCESS, "success", user);
+    }
+
+    @ApiOperation("Update the user profile")
+    @GetMapping("updateUser")
+    public JSONObject updateUser(@RequestBody User user) {
+        userService.updateUser(user);
+        return JSONUtil.resp(Status.SUCCESS, "success", null);
+    }
+
     // for Cynthia
     @GetMapping("testPaging")
     public JSONObject testPaging(@RequestBody TestReqParam param) {

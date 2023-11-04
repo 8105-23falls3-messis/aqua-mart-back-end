@@ -27,4 +27,7 @@ public interface UserMapper {
 
     void removeToken(@Param("token") String token);
 
+    User getUserById(@Param("userId") String userId);
+
+    void updateUser(User user);
 }
