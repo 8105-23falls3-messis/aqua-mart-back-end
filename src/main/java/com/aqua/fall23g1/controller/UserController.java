@@ -46,7 +46,16 @@ public class UserController {
         if (register == 0) {
             resp = JSONUtil.resp(Status.FAILED, "Registration failed!", null);
         } else {
-            resp = JSONUtil.resp(Status.SUCCESS, "Registration successfully.", null);
+            String signToken = TokenUtil.sign(user);
+            JSONObject body = new JSONObject();
+            body.put("token", signToken);
+            body.put("user", user);
+            TokenHistory tokenHistory = new TokenHistory();
+            tokenHistory.setToken(signToken);
+            tokenHistory.setUserName(user.getFirstName() + " " + user.getLastName());
+            // insert token history into database
+            userService.addTokenHistory(tokenHistory);
+            resp = JSONUtil.resp(Status.SUCCESS, "Registration successfully.", body);
         }
         return resp;
     }

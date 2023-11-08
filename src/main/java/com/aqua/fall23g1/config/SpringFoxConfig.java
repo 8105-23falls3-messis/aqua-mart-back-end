@@ -21,11 +21,6 @@ public class SpringFoxConfig {
             .build();
     }
 
-    /**
-     * 用于定义API主界面的信息，比如可以声明所有的API的总标题、描述、版本
-     * 
-     * @return
-     */
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder().title("Aqua API").description("Aqua SwaggerAPI Management").termsOfServiceUrl("")
             .version("1.0").build();

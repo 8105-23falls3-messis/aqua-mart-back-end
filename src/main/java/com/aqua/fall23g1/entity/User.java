@@ -33,6 +33,10 @@ public class User {
     private String country;
     @ApiModelProperty("postalCode")
     private String postalCode;
+    @ApiModelProperty("phoneNumber")
+    private String phoneNum;
+    @ApiModelProperty("companyName")
+    private String companyName;
     @ApiModelProperty("password")
     private String password;
     @ApiModelProperty("role id, get it from other interface")
