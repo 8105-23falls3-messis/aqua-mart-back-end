@@ -1,7 +1,5 @@
 package com.aqua.fall23g1.entity;
 
-import java.sql.Date;
-
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -24,7 +22,7 @@ public class User {
     @ApiModelProperty("email")
     private String email;
     @ApiModelProperty("date of birth")
-    private Date dateOfBirth;
+    private String dateOfBirth;
     @ApiModelProperty("address")
     private String address;
     @ApiModelProperty("city")
