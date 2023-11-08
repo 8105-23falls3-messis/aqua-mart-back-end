@@ -1,12 +1,18 @@
 package com.aqua.fall23g1.service.impl;
 
+import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import com.aqua.fall23g1.controller.ImageController;
 import com.aqua.fall23g1.entity.*;
+import com.aqua.fall23g1.mapper.ImageMapper;
 import com.aqua.fall23g1.mapper.ProductMapper;
+import com.aqua.fall23g1.service.ImageStorageService;
 import com.aqua.fall23g1.service.ProductService;
 import com.github.pagehelper.PageHelper;
 
@@ -15,9 +21,28 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     private ProductMapper productMapper;
+    
+	@Autowired
+	ImageStorageService storageService;
+    
+    @Autowired
+    private ImageMapper imageMapper;
 
 	@Override
 	public void addProduct(Product product) {
+
+		
+		
+		String url = MvcUriComponentsBuilder
+				.fromMethodName(ImageController.class, "getFile", product.getImage().getFileName().toString()).build().toString();
+		
+		Image image =new Image();
+		image.setFileName(product.getImage().getFileName());
+		image.setType(product.getImage().getType());
+		image.setUrl(url);;
+
+		imageMapper.insertImageData(image);
+		product.setImage(image);
 		productMapper.insertProductData(product);
 	}
 

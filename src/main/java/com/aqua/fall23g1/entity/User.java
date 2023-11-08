@@ -2,8 +2,9 @@ package com.aqua.fall23g1.entity;
 
 import java.sql.Date;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+//import io.swagger.annotations.ApiModel;
+//import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,32 +12,32 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("User object")
+@Schema(description ="User object")
 public class User {
-    @ApiModelProperty("id")
+	@Schema(description ="id")
     private int id;
-    @ApiModelProperty("firstName")
+	@Schema(description ="firstName")
     private String firstName;
-    @ApiModelProperty("midName")
+	@Schema(description ="midName")
     private String midName;
-    @ApiModelProperty("lastName")
+    @Schema(description ="lastName")
     private String lastName;
-    @ApiModelProperty("email")
+    @Schema(description ="email")
     private String email;
-    @ApiModelProperty("date of birth")
+    @Schema(description ="date of birth")
     private Date dateOfBirth;
-    @ApiModelProperty("address")
+    @Schema(description ="address")
     private String address;
-    @ApiModelProperty("city")
+    @Schema(description ="city")
     private String city;
-    @ApiModelProperty("province")
+    @Schema(description ="province")
     private String province;
-    @ApiModelProperty("country")
+    @Schema(description ="country")
     private String country;
-    @ApiModelProperty("postalCode")
+    @Schema(description ="postalCode")
     private String postalCode;
-    @ApiModelProperty("password")
+    @Schema(description ="password")
     private String password;
-    @ApiModelProperty("role id, get it from other interface")
+    @Schema(description ="role id, get it from other interface")
     private int idRole;
 }

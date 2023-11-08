@@ -21,8 +21,12 @@ import com.aqua.fall23g1.entity.TestReqParam;
 import com.aqua.fall23g1.service.ProductService;
 import com.aqua.fall23g1.utils.JSONUtil;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/product")
+@Tag(name = "Product Management")
 public class ProductController {
 
 	@Autowired
@@ -30,12 +34,14 @@ public class ProductController {
 
 	private Logger logger = LoggerFactory.getLogger(ProductController.class);
 
+	@Operation(summary ="Get all products")
 	@GetMapping("list")
 	public JSONObject getAllProducts(@RequestBody TestReqParam param) {
 		List<Product> products = productService.listProducts(param);
 		return JSONUtil.resp(Status.SUCCESS, "success", products);
 	}
 
+	@Operation(summary ="Add product" , description ="To add a product, an image information must be sent")
 	@PostMapping("add")
 	public JSONObject addProduct(@RequestBody Product product) {
 		JSONObject resp;
@@ -48,6 +54,7 @@ public class ProductController {
 			resp = JSONUtil.resp(Status.SUCCESS, "Added successfully.", body);
 		} catch (Exception ex) {
 			body.put("add", false);
+			body.put("message", ex.getMessage());
 			resp = JSONUtil.resp(Status.FAILED, "Added failed.", body);
 			logger.info(ex.getMessage());
 
@@ -55,6 +62,7 @@ public class ProductController {
 		return resp;
 	}
 
+	@Operation(summary ="Update product")
 	@PutMapping("update")
 	public JSONObject updateProduct(@RequestBody Product product) {
 		JSONObject resp;
@@ -67,12 +75,14 @@ public class ProductController {
 			logger.info("Product" + product.getId() + "updated successfully");
 		} catch (Exception ex) {
 			body.put("update", false);
+			body.put("message", ex.getMessage());
 			resp = JSONUtil.resp(Status.FAILED, "Updated failed.", body);
 			logger.info(ex.getMessage());
 		}
 		return resp;
 	}
 
+	@Operation(summary ="Delete product")
 	@DeleteMapping("delete/{id}")
 	public JSONObject deleteProduct(@PathVariable("id") int id) {
 		JSONObject resp;
@@ -85,12 +95,14 @@ public class ProductController {
 			logger.info("Product " + id + " deleted successfully");
 		} catch (Exception ex) {
 			body.put("delete", false);
+			body.put("message", ex.getMessage());
 			resp = JSONUtil.resp(Status.FAILED, "Deleted failed.", null);
 			logger.info(ex.getMessage());
 		}
 		return resp;
 	}
 
+	@Operation(summary ="Get product")
 	@GetMapping("get/{id}")
 	public JSONObject getProduct(@PathVariable("id") int id) {
 		JSONObject resp;
@@ -104,6 +116,7 @@ public class ProductController {
 			logger.info("Product " + id + " deleted successfully");
 		} catch (Exception ex) {
 			body.put("product", null);
+			body.put("message", ex.getMessage());
 			resp = JSONUtil.resp(Status.FAILED, "Get failed.", body);
 			logger.info(ex.getMessage());
 		}

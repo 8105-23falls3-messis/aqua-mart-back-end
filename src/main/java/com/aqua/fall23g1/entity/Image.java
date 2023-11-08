@@ -8,9 +8,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Image {
-	private int id;
-	private String name;
-	private String type;
-	private byte []pic;
-
+	  private int id;
+	  private String fileName;
+	  private String type;
+	  private String url;
+	  
+	  public Image(String name, String url) {
+		  this.fileName=name;
+		  this.url=url;
+	  }
+	  
+	  
 }

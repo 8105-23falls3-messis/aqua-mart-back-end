@@ -46,6 +46,7 @@ public class LoginConfig implements WebMvcConfigurer {
         excludePath.add("/swagger-resources/**");
         excludePath.add("/swagger-ui.html");
         excludePath.add("/v2/api-docs");
+        excludePath.add("/v3/api-docs/**");
         excludePath.add("/webjars/**");
         // excludePath.add("/user/login");
         excludePath.add("/img/**");
@@ -61,6 +62,7 @@ public class LoginConfig implements WebMvcConfigurer {
         excludePath.add("/*.icon");
         excludePath.add("/*.ico");
         excludePath.add("/*.txt");
+        excludePath.add("/image/upload");
         registry.addInterceptor(userLoginInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(excludePath);

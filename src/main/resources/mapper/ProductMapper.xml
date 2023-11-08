@@ -2,17 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aqua.fall23g1.mapper.ProductMapper">
 
-    <insert id="insertProductData">
+    <insert id="insertProductData" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+    	
         INSERT INTO product
         (name,
          description,
          idUser,
-         <!-- idImage, -->
+         idImage,
          active)
         VALUES (#{name},
                 #{description},
                 #{user.id},
-                 <!-- #{image.id},-->
+                #{image.id},
                 #{active})
     </insert>
     

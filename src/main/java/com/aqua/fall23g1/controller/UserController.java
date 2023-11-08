@@ -2,7 +2,7 @@ package com.aqua.fall23g1.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,25 +14,25 @@ import com.aqua.fall23g1.service.UserService;
 import com.aqua.fall23g1.utils.JSONUtil;
 import com.aqua.fall23g1.utils.TokenUtil;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/user")
-@Api(value = "User Management")
+@Tag(name = "User Management")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @ApiOperation("Get all roles without param")
+    @Operation(summary ="Get all roles without param")
     @GetMapping("roles")
     public JSONObject getAllRoles() {
         List<Role> roles = userService.getAllRoles();
         return JSONUtil.resp(Status.SUCCESS, "success", roles);
     }
 
-    @ApiOperation("Register interface")
+    @Operation(summary ="Register interface")
     @PostMapping("register")
     public JSONObject register(@RequestBody User user) {
         JSONObject resp;
@@ -51,7 +51,7 @@ public class UserController {
         return resp;
     }
 
-    @ApiOperation("Login interface")
+    @Operation(summary ="Login interface")
     @PostMapping("login")
     public JSONObject login(@RequestBody LoginReq loginReq) {
         JSONObject resp;
@@ -73,7 +73,7 @@ public class UserController {
         return resp;
     }
 
-    @ApiOperation("Logout interface")
+    @Operation(summary ="Logout interface")
     @PostMapping("logOut")
     public JSONObject loginOut(HttpServletRequest request) {
         String token = request.getHeader("token");
@@ -81,14 +81,14 @@ public class UserController {
         return JSONUtil.resp(Status.SUCCESS, "Log out successfully.", null);
     }
 
-    @ApiOperation("Get the user profile")
+    @Operation(summary ="Get the user profile")
     @GetMapping("userProfile")
     public JSONObject userProfile(@RequestParam("userId") String userId) {
         User user = userService.getUserById(userId);
         return JSONUtil.resp(Status.SUCCESS, "success", user);
     }
 
-    @ApiOperation("Update the user profile")
+    @Operation(summary ="Update the user profile")
     @GetMapping("updateUser")
     public JSONObject updateUser(@RequestBody User user) {
         userService.updateUser(user);
