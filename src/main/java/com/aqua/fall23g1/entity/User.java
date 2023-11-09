@@ -1,9 +1,5 @@
 package com.aqua.fall23g1.entity;
 
-import java.sql.Date;
-
-//import io.swagger.annotations.ApiModel;
-//import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,10 +20,10 @@ public class User {
     private String lastName;
     @Schema(description ="email")
     private String email;
-    @Schema(description ="date of birth")
-    private Date dateOfBirth;
     @Schema(description ="address")
     private String address;
+    @Schema(description ="date of birth")
+    private String dateOfBirth;
     @Schema(description ="city")
     private String city;
     @Schema(description ="province")
@@ -38,6 +34,10 @@ public class User {
     private String postalCode;
     @Schema(description ="password")
     private String password;
+    @Schema(description ="phoneNumber")
+    private String phoneNum;
+    @Schema(description ="companyName")
+    private String companyName;
     @Schema(description ="role id, get it from other interface")
     private int idRole;
 }

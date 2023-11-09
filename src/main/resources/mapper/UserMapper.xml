@@ -14,6 +14,8 @@
          province,
          country,
          postal_code,
+         phone_num,
+         company_name,
          password,
          id_role)
         VALUES (#{firstName},
@@ -26,6 +28,8 @@
                 #{province},
                 #{country},
                 #{postalCode},
+                #{phoneNum},
+                #{companyName},
                 #{password},
                 #{idRole})
     </insert>
@@ -40,7 +44,9 @@
             city          = #{city},
             province      = #{province},
             country       = #{country},
-            postal_code   = #{postalCode}
+            postal_code   = #{postalCode},
+            company_name  = #{companyName},
+            phone_num     = #{phoneNum}
         WHERE id = #{id}
     </update>
     <select id="queryUser" resultType="com.aqua.fall23g1.entity.User">
@@ -55,6 +61,8 @@
                province      AS province,
                country       AS country,
                postal_code   AS postalCode,
+               phone_num     AS phoneNum,
+               company_name  AS companyName,
                id_role       AS idRole
         FROM user
         WHERE email = #{email}
@@ -89,6 +97,8 @@
                province      AS province,
                country       AS country,
                postal_code   AS postalCode,
+               phone_num     AS phoneNum,
+               company_name  AS companyName,
                id_role       AS idRole
         FROM user
         WHERE id = #{userId}
