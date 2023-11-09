@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aqua.fall23g1.mapper.UserMapper">
 
-    <insert id="insertUserData">
+    <insert id="insertUserData" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user
         (first_name,
          mid_name,
@@ -103,12 +103,24 @@
         FROM user
         WHERE id = #{userId}
     </select>
+    <select id="getRolesByUserId" resultType="com.aqua.fall23g1.entity.Role">
+        SELECT id, role_name
+        FROM role
+        WHERE id IN (SELECT id_role FROM user_role WHERE id_user = #{userId})
+    </select>
     <insert id="addTokenHistory">
         INSERT INTO token_history
         (token,
          user_name)
         VALUES (#{token},
                 #{userName})
+    </insert>
+    <insert id="insertUserRole">
+        INSERT INTO user_role
+        (id_user,
+         id_role)
+        VAlUES (#{userId},
+                #{idRole})
     </insert>
     <delete id="removeToken">
         DELETE

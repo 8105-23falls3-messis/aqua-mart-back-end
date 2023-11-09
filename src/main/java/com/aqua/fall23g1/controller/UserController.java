@@ -2,20 +2,22 @@ package com.aqua.fall23g1.controller;
 
 import java.util.List;
 
-import jakarta.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.aqua.fall23g1.constant.Status;
-import com.aqua.fall23g1.entity.*;
+import com.aqua.fall23g1.entity.LoginReq;
+import com.aqua.fall23g1.entity.Role;
+import com.aqua.fall23g1.entity.TokenHistory;
+import com.aqua.fall23g1.entity.User;
 import com.aqua.fall23g1.service.UserService;
 import com.aqua.fall23g1.utils.JSONUtil;
 import com.aqua.fall23g1.utils.TokenUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/user")
@@ -46,6 +48,7 @@ public class UserController {
         if (register == 0) {
             resp = JSONUtil.resp(Status.FAILED, "Registration failed!", null);
         } else {
+            // when success return the token and user to the frontend
             String signToken = TokenUtil.sign(user);
             JSONObject body = new JSONObject();
             body.put("token", signToken);
@@ -66,12 +69,14 @@ public class UserController {
         JSONObject resp;
         User user = userService.getUserByLoginData(loginReq);
         if (user == null) {
-            resp = JSONUtil.resp(Status.FAILED, "Email or password invalid.", null);
+            resp = JSONUtil.resp(Status.FAILED, "Email or password invalid or you don't have invalid role.", null);
         } else {
             String signToken = TokenUtil.sign(user);
             JSONObject body = new JSONObject();
             body.put("token", signToken);
             body.put("user", user);
+            List<Role> roles = userService.getRolesByUser(user.getId());
+            body.put("roles", roles);
             TokenHistory tokenHistory = new TokenHistory();
             tokenHistory.setToken(signToken);
             tokenHistory.setUserName(user.getFirstName() + " " + user.getLastName());
@@ -98,17 +103,17 @@ public class UserController {
     }
 
     @Operation(summary ="Update the user profile")
-    @GetMapping("updateUser")
+    @PostMapping("updateUser")
     public JSONObject updateUser(@RequestBody User user) {
         userService.updateUser(user);
-        return JSONUtil.resp(Status.SUCCESS, "success", null);
+        return JSONUtil.resp(Status.SUCCESS, "success", user);
     }
 
     // for Cynthia
-    @GetMapping("testPaging")
-    public JSONObject testPaging(@RequestBody TestReqParam param) {
-        // use role to test paging
-        List<Role> allRolesByPage = userService.getAllRolesByPage(param);
-        return JSONUtil.resp(Status.SUCCESS, "success", allRolesByPage);
-    }
+    // @GetMapping("testPaging")
+    // public JSONObject testPaging(@RequestBody TestReqParam param) {
+    // // use role to test paging
+    // List<Role> allRolesByPage = userService.getAllRolesByPage(param);
+    // return JSONUtil.resp(Status.SUCCESS, "success", allRolesByPage);
+    // }
 }

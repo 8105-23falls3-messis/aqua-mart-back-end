@@ -30,4 +30,8 @@ public interface UserMapper {
     User getUserById(@Param("userId") String userId);
 
     void updateUser(User user);
+
+    void insertUserRole(@Param("userId") int userId, @Param("idRole") int idRole);
+
+    List<Role> getRolesByUserId(int userId);
 }
