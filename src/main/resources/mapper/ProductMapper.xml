@@ -2,16 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aqua.fall23g1.mapper.ProductMapper">
 
-    <insert id="insertProductData" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
-    	
+    <insert id="insertProductData" useGeneratedKeys="true" keyProperty="id" keyColumn="id"> 	
         INSERT INTO product
-        (name,
+        (title,
+        brand,
          description,
+         cost,
          idUser,
          idImage,
          active)
-        VALUES (#{name},
+        VALUES (#{title},
+        		#{brand},
                 #{description},
+                #{cost},
                 #{user.id},
                 #{image.id},
                 #{active})
@@ -19,7 +22,7 @@
     
     <update id="updateProductData">
         UPDATE product
-        SET name=#{name}, description =#{description}
+        SET title=#{title}, brand=#{brand},description =#{description},cost=#{cost}
         WHERE id= #{id}
     </update>
     
@@ -32,15 +35,20 @@
     
     <select id="getProducts" resultType="com.aqua.fall23g1.entity.Product">
         SELECT id        AS id,
-               name AS name,
-               description AS description               
-        FROM product
+               title AS title,
+               brand AS brand,
+               description AS description,
+               cost AS cost               
+        FROM product p
+        WHERE p.active=1
     </select>
     
     <resultMap id="productMap" type="com.aqua.fall23g1.entity.Product">
 	  <id property="id" column="id"/>
-	  <result property="name" column="name"/>
+	 	<result property="title" column="title" />  
+	 	<result property="brand" column="brand"/>
 	  <result property="description" column="description"/>
+	  <result property="cost" column="cost"/>	  
 	  <association property="user" javaType="User">
 	    <id property="id" column="userID"/>
 	    <result property="firstName" column="userName"/>
@@ -66,8 +74,10 @@
 
     <select id="getProduct" resultMap="productMap">
         SELECT p.id        AS id,
-               p.name AS name,
-               p.description AS description,  
+               p.title AS title,
+               p.brand AS brand, 
+               p.description AS description, 
+               p.cost AS cost,  
                u.id AS userID,
                u.first_name AS userName,
                u.mid_name AS userMidname,     
@@ -88,6 +98,7 @@
         FROM product p, user u, image i
         WHERE p.idUser=u.id
         AND p.idImage=i.id
+        AND p.active=1
         AND p.id = #{id}
     </select>
 
