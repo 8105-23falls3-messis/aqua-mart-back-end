@@ -18,6 +18,7 @@ import com.alibaba.fastjson2.JSONObject;
 import com.aqua.fall23g1.constant.Status;
 import com.aqua.fall23g1.entity.Product;
 import com.aqua.fall23g1.entity.TestReqParam;
+import com.aqua.fall23g1.service.ImageStorageService;
 import com.aqua.fall23g1.service.ProductService;
 import com.aqua.fall23g1.utils.JSONUtil;
 
@@ -31,6 +32,9 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
+	
+	@Autowired
+	private ImageStorageService imageStorageService;
 
 	private Logger logger = LoggerFactory.getLogger(ProductController.class);
 
@@ -89,7 +93,9 @@ public class ProductController {
 		JSONObject body = new JSONObject();
 		body.put("id", id);
 		try {
+			Product product =productService.getProduct(id);			
 			productService.deleteProduct(id);
+			imageStorageService.deleteId(product.getImage().getId());
 			body.put("delete", true);
 			resp = JSONUtil.resp(Status.SUCCESS, "Deleted successfully.", body);
 			logger.info("Product " + id + " deleted successfully");

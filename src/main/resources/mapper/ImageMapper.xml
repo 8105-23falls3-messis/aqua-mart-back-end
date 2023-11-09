@@ -16,6 +16,10 @@
 	       </selectKey>
     </insert>
     
-  
+      <delete id="deleteImageData">
+        DELETE
+        FROM image
+        WHERE id = #{id}
+    </delete>    
 
 </mapper>

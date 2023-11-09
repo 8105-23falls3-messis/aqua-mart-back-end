@@ -9,4 +9,6 @@ public interface ImageMapper {
 
     int insertImageData(Image image);
     
+    boolean deleteImageData(int id);
+    
 }

@@ -26,7 +26,7 @@
     <delete id="deleteProductData">
         DELETE
         FROM product
-        WHERE id = #{idProduct}
+        WHERE id = #{id}
     </delete>    
     
     
@@ -54,7 +54,13 @@
 	    <result property="country" column="userCountry"/>
 	    <result property="postalCode" column="userPostalCode"/>	
 	    <result property="password" column="userPassword"/>
-	    <result property="idRole" column="userRoleId"/>		    	    	    	    	    	    
+	    <result property="idRole" column="userRoleId"/>		
+	  </association>
+	 	<association property="image" javaType="Image">
+	    <result property="id" column="imageID"/>
+	    <result property="fileName" column="imageName"/>	
+	    <result property="type" column="imageType"/>
+	    <result property="url" column="imageURL"/>		        	    	    	    	    	    
 	  </association>
 	</resultMap>
 
@@ -74,10 +80,15 @@
                u.country AS userCountry,  
                u.postal_code   AS userPostalCode,
                u.password AS userPassword,     
-               u.id_role AS userRoleId                           
-        FROM product p, user u
+               u.id_role AS userRoleId,
+               i.id AS imageID,
+               i.name AS imageName,
+               i.type AS imageType,
+               i.url AS imageURL                           
+        FROM product p, user u, image i
         WHERE p.idUser=u.id
-        AND p.id = #{idProduct}
+        AND p.idImage=i.id
+        AND p.id = #{id}
     </select>
 
 </mapper>

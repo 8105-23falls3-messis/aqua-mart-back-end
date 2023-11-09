@@ -17,5 +17,7 @@ public interface ImageStorageService {
 	  public void deleteAll();
 
 	  public Stream<Path> loadAll();
+	  
+	  public void deleteId(int id);
 
 }

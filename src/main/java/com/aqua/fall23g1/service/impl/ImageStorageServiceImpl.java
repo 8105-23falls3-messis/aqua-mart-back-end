@@ -1,5 +1,6 @@
 package com.aqua.fall23g1.service.impl;
 
+import com.aqua.fall23g1.mapper.ImageMapper;
 import com.aqua.fall23g1.service.ImageStorageService;
 
 
@@ -12,6 +13,7 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.util.FileSystemUtils;
@@ -21,6 +23,9 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageStorageServiceImpl implements ImageStorageService{
 	
 	private final Path root = Paths.get("uploads");
+	
+    @Autowired
+    private ImageMapper imageMapper;
 
 	  @Override
 	  public void init() {
@@ -73,5 +78,10 @@ public class ImageStorageServiceImpl implements ImageStorageService{
 	      throw new RuntimeException("Could not load the files!");
 	    }
 	  }
+
+	@Override
+	public void deleteId(int id) {
+		imageMapper.deleteImageData(id);
+	}
 
 }
