@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.aqua.fall23g1.entity.*;
+import com.aqua.fall23g1.entity.LoginReq;
+import com.aqua.fall23g1.entity.Role;
+import com.aqua.fall23g1.entity.TokenHistory;
+import com.aqua.fall23g1.entity.User;
 import com.aqua.fall23g1.mapper.UserMapper;
 import com.aqua.fall23g1.service.UserService;
-import com.github.pagehelper.PageHelper;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,7 +31,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public int register(User user) {
         try {
-            userMapper.insertUserData(user);
+            int userId = userMapper.insertUserData(user);
+            userMapper.insertUserRole(userId, user.getIdRole());
             // register succeed return 1
             return 1;
         } catch (Exception e) {
@@ -43,14 +46,14 @@ public class UserServiceImpl implements UserService {
         return userMapper.queryUser(loginReq);
     }
 
-    @Override
-    public List<Role> getAllRolesByPage(TestReqParam param) {
-        // set paging param before query
-        // then we don't need to write limit key word in our query sentences
-        PageHelper.startPage(param.getPageNum(), param.getPageSize());
-        List<Role> rolesByPaging = userMapper.getAllRoles();
-        return rolesByPaging;
-    }
+    // @Override
+    // public List<Role> getAllRolesByPage(TestReqParam param) {
+    // // set paging param before query
+    // // then we don't need to write limit key word in our query sentences
+    // PageHelper.startPage(param.getPageNum(), param.getPageSize());
+    // List<Role> rolesByPaging = userMapper.getAllRoles();
+    // return rolesByPaging;
+    // }
 
     @Override
     public void addTokenHistory(TokenHistory tokenHistory) {
@@ -70,5 +73,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(User user) {
         userMapper.updateUser(user);
+    }
+
+    @Override
+    public List<Role> getRolesByUser(int userId) {
+        return userMapper.getRolesByUserId(userId);
     }
 }
