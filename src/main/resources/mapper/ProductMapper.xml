@@ -2,104 +2,178 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.aqua.fall23g1.mapper.ProductMapper">
 
-    <insert id="insertProductData" useGeneratedKeys="true" keyProperty="id" keyColumn="id"> 	
-        INSERT INTO product
-        (title,
-        brand,
-         description,
-         cost,
-         idUser,
-         idImage,
-         active)
-        VALUES (#{title},
-        		#{brand},
-                #{description},
-                #{cost},
-                #{user.id},
-                #{image.id},
-                #{active})
-    </insert>
-    
-    <update id="updateProductData">
-        UPDATE product
-        SET title=#{title}, brand=#{brand},description =#{description},cost=#{cost}
-        WHERE id= #{id}
-    </update>
-    
-    <delete id="deleteProductData">
-        DELETE
-        FROM product
-        WHERE id = #{id}
-    </delete>    
-    
-    
-    <select id="getProducts" resultType="com.aqua.fall23g1.entity.Product">
-        SELECT id        AS id,
-               title AS title,
-               brand AS brand,
-               description AS description,
-               cost AS cost               
-        FROM product p
-        WHERE p.active=1
-    </select>
-    
-    <resultMap id="productMap" type="com.aqua.fall23g1.entity.Product">
-	  <id property="id" column="id"/>
-	 	<result property="title" column="title" />  
-	 	<result property="brand" column="brand"/>
-	  <result property="description" column="description"/>
-	  <result property="cost" column="cost"/>	  
-	  <association property="user" javaType="User">
-	    <id property="id" column="userID"/>
-	    <result property="firstName" column="userName"/>
-	    <result property="midName" column="userMidname"/>
-	    <result property="lastName" column="userLastname"/>
-	    <result property="email" column="userEmail"/>	
-	    <result property="dateOfBirth" column="userBirth"/>
-	    <result property="address" column="userAddress"/>	
-	    <result property="city" column="userName"/>
-	    <result property="province" column="userProvince"/>	
-	    <result property="country" column="userCountry"/>
-	    <result property="postalCode" column="userPostalCode"/>	
-	    <result property="password" column="userPassword"/>
-	    <result property="idRole" column="userRoleId"/>		
-	  </association>
-	 	<association property="image" javaType="Image">
-	    <result property="id" column="imageID"/>
-	    <result property="fileName" column="imageName"/>	
-	    <result property="type" column="imageType"/>
-	    <result property="url" column="imageURL"/>		        	    	    	    	    	    
-	  </association>
+	<insert id="insertProductData" useGeneratedKeys="true"
+		keyProperty="id" keyColumn="id">
+		INSERT INTO product
+		(title,
+		brand,
+		description,
+		cost,
+		idUser,
+		idImage,
+		idCategory,
+		active)
+		VALUES (#{title},
+		#{brand},
+		#{description},
+		#{cost},
+		#{user.id},
+		#{image.id},
+		#{category.id},
+		#{active})
+	</insert>
+
+	<update id="updateProductData">
+		UPDATE product
+		SET title=#{title}, brand=#{brand},description
+		=#{description},cost=#{cost}
+		WHERE id= #{id}
+	</update>
+
+	<delete id="deleteProductData">
+		DELETE
+		FROM product
+		WHERE id = #{id}
+	</delete>
+
+	<resultMap id="productMapList" type="java.util.Map">
+		<id property="id" column="id" />
+
+		<result property="title" column="title" />
+		<result property="brand" column="brand" />
+		<result property="description" column="description" />
+		<result property="cost" column="cost" />
+		<result property="active" column="active" />
+		<association property="user" javaType="User">
+			<id property="id" column="userID" />
+			<result property="firstName" column="userName" />
+			<result property="midName" column="userMidname" />
+			<result property="lastName" column="userLastname" />
+			<result property="email" column="userEmail" />
+			<result property="dateOfBirth" column="userBirth" />
+			<result property="address" column="userAddress" />
+			<result property="city" column="userName" />
+			<result property="province" column="userProvince" />
+			<result property="country" column="userCountry" />
+			<result property="postalCode" column="userPostalCode" />
+			<result property="password" column="userPassword" />
+			<result property="idRole" column="userRoleId" />
+		</association>
+		<association property="image" javaType="Image">
+			<result property="id" column="imageID" />
+			<result property="fileName" column="imageName" />
+			<result property="type" column="imageType" />
+			<result property="url" column="imageURL" />
+		</association>
+		<association property="category" javaType="Category">
+			<result property="id" column="categoryID" />
+			<result property="name" column="categoryName" />
+		</association>
 	</resultMap>
 
-    <select id="getProduct" resultMap="productMap">
-        SELECT p.id        AS id,
-               p.title AS title,
-               p.brand AS brand, 
-               p.description AS description, 
-               p.cost AS cost,  
-               u.id AS userID,
-               u.first_name AS userName,
-               u.mid_name AS userMidname,     
-               u.last_name AS userLastname,  
-               u.email AS userEmail,  
-               u.date_of_birth AS userBirth,
-               u.address   AS userAddress,
-               u.city AS userMidname,     
-               u.province AS userProvince,  
-               u.country AS userCountry,  
-               u.postal_code   AS userPostalCode,
-               u.password AS userPassword,     
-               u.id_role AS userRoleId,
-               i.id AS imageID,
-               i.name AS imageName,
-               i.type AS imageType,
-               i.url AS imageURL                           
-        FROM product p, user u, image i
-        WHERE p.idUser=u.id
-        AND p.idImage=i.id
-        AND p.active=1
-        AND p.id = #{id}
-    </select>
+
+	<select id="getProducts"
+		resultType="com.aqua.fall23g1.entity.Product"
+		resultMap="productMapList">
+		SELECT p.id AS id,
+		p.title AS title,
+		p.brand AS brand,
+		p.description AS description,
+		p.cost AS cost,
+		p.active AS active,
+		u.id AS userID,
+		u.first_name AS userName,
+		u.mid_name AS userMidname,
+		u.last_name AS userLastname,
+		u.email AS userEmail,
+		u.date_of_birth AS userBirth,
+		u.address AS userAddress,
+		u.city AS userMidname,
+		u.province AS userProvince,
+		u.country AS userCountry,
+		u.postal_code AS userPostalCode,
+		u.password AS userPassword,
+		u.id_role AS userRoleId,
+		i.id AS imageID,
+		i.name AS imageName,
+		i.type AS imageType,
+		i.url AS imageURL,
+		c.id AS categoryID,
+		c.name AS categoryName
+		FROM product p, user u, image i, category c
+		WHERE p.idUser=u.id
+		AND p.idImage=i.id
+		AND p.idCategory=c.id
+		AND p.active=1
+	</select>
+
+	<resultMap id="productMap"
+		type="com.aqua.fall23g1.entity.Product">
+		<id property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="brand" column="brand" />
+		<result property="description" column="description" />
+		<result property="cost" column="cost" />
+		<result property="active" column="active" />
+		<association property="user" javaType="User">
+			<id property="id" column="userID" />
+			<result property="firstName" column="userName" />
+			<result property="midName" column="userMidname" />
+			<result property="lastName" column="userLastname" />
+			<result property="email" column="userEmail" />
+			<result property="dateOfBirth" column="userBirth" />
+			<result property="address" column="userAddress" />
+			<result property="city" column="userName" />
+			<result property="province" column="userProvince" />
+			<result property="country" column="userCountry" />
+			<result property="postalCode" column="userPostalCode" />
+			<result property="password" column="userPassword" />
+			<result property="idRole" column="userRoleId" />
+		</association>
+		<association property="image" javaType="Image">
+			<result property="id" column="imageID" />
+			<result property="fileName" column="imageName" />
+			<result property="type" column="imageType" />
+			<result property="url" column="imageURL" />
+		</association>
+		<association property="category" javaType="Category">
+			<result property="id" column="categoryID" />
+			<result property="name" column="categoryName" />
+		</association>
+	</resultMap>
+
+	<select id="getProduct" resultMap="productMap">
+		SELECT p.id AS id,
+		p.title AS title,
+		p.brand AS brand,
+		p.description AS description,
+		p.cost AS cost,
+		p.active AS active,
+		u.id AS userID,
+		u.first_name AS userName,
+		u.mid_name AS userMidname,
+		u.last_name AS userLastname,
+		u.email AS userEmail,
+		u.date_of_birth AS userBirth,
+		u.address AS userAddress,
+		u.city AS userMidname,
+		u.province AS userProvince,
+		u.country AS userCountry,
+		u.postal_code AS userPostalCode,
+		u.password AS userPassword,
+		u.id_role AS userRoleId,
+		i.id AS imageID,
+		i.name AS imageName,
+		i.type AS imageType,
+		i.url AS imageURL,
+		c.id AS categoryID,
+		c.name AS categoryName
+		FROM product p, user u, image i, category c
+		WHERE p.idUser=u.id
+		AND p.idImage=i.id
+		AND p.idCategory=c.id
+		AND p.active=1
+		AND p.id = #{id}
+	</select>
 
 </mapper>

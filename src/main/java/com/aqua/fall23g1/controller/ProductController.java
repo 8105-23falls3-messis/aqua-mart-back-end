@@ -118,8 +118,12 @@ public class ProductController {
 		try {
 			Product product = productService.getProduct(id);
 			body.put("product", product);
-			resp = JSONUtil.resp(Status.SUCCESS, "Get successfully.", body);
-			logger.info("Product " + id + " deleted successfully");
+			if (product==null) {
+				resp = JSONUtil.resp(Status.FAILED, "Product Not found.", body);			
+			}else {
+				resp = JSONUtil.resp(Status.SUCCESS, "Get successfully.", body);
+				logger.info("Product " + id + " deleted successfully");				
+			}
 		} catch (Exception ex) {
 			body.put("product", null);
 			body.put("message", ex.getMessage());
