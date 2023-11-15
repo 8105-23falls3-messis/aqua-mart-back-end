@@ -12,6 +12,8 @@ public class Image {
 	  private String fileName;
 	  private String type;
 	  private String url;
+	  private Boolean cover;
+	  private Product product;
 	  
 	  public Image(String name, String url) {
 		  this.fileName=name;

@@ -2,6 +2,8 @@ package com.aqua.fall23g1.entity;
 
 
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +20,6 @@ public class Product {
     private Category category;
     //@Column(name=”DESC”)
     private User user;
-    private Image image;
+    private List<Image> images;
     private Boolean active;
-
 }

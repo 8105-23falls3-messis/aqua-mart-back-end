@@ -127,4 +127,14 @@
         FROM token_history
         WHERE token = #{token}
     </delete>
+    <select id="getCountries" resultType="com.aqua.fall23g1.entity.Country">
+        SELECT id        AS id,
+               name AS name
+        FROM country
+    </select>
+     <select id="getProvinces" resultType="com.aqua.fall23g1.entity.Province">
+        SELECT id        AS id,
+               name AS name
+        FROM province
+    </select>          
 </mapper>

@@ -24,20 +24,20 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public void addProduct(Product product) {
-
 		
-		
-		String url = MvcUriComponentsBuilder
-				.fromMethodName(ImageController.class, "getFile", product.getImage().getFileName().toString()).build().toString();
-		
-		Image image =new Image();
-		image.setFileName(product.getImage().getFileName());
-		image.setType(product.getImage().getType());
-		image.setUrl(url);;
-
-		imageMapper.insertImageData(image);
-		product.setImage(image);
 		productMapper.insertProductData(product);
+		
+		for(Image newImage: product.getImages()) {
+			String url = MvcUriComponentsBuilder
+					.fromMethodName(ImageController.class, "getFile", newImage.getFileName().toString()).build().toString();
+			Image image =new Image();
+			image.setCover(false);
+			image.setFileName(newImage.getFileName());
+			image.setType(newImage.getType());
+			image.setUrl(url);
+			image.setProduct(product);	
+			imageMapper.insertImageData(image);
+		}
 	}
 
 	@Override
@@ -59,6 +59,21 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Product getProduct(int id) {
 		return productMapper.getProduct(id);
+	}
+
+	@Override
+	public List<Category> listCategories() {
+		// TODO Auto-generated method stub
+		return productMapper.getCategories();
+	}
+
+	@Override
+	public void addImageToProduct(Image image) {
+		String url = MvcUriComponentsBuilder
+				.fromMethodName(ImageController.class, "getFile", image.getFileName().toString()).build().toString();
+		image.setUrl(url);
+		imageMapper.insertImageData( image);
+		
 	}
 	
 }

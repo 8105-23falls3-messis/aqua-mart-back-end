@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.aqua.fall23g1.entity.Country;
 import com.aqua.fall23g1.entity.LoginReq;
+import com.aqua.fall23g1.entity.Province;
 import com.aqua.fall23g1.entity.Role;
 import com.aqua.fall23g1.entity.TokenHistory;
 import com.aqua.fall23g1.entity.User;
@@ -79,4 +81,14 @@ public class UserServiceImpl implements UserService {
     public List<Role> getRolesByUser(int userId) {
         return userMapper.getRolesByUserId(userId);
     }
+
+	@Override
+	public List<Country> getCountries() {
+		return userMapper.getCountries();
+	}
+
+	@Override
+	public List<Province> getProvinces() {
+		return userMapper.getProvinces();
+	}
 }

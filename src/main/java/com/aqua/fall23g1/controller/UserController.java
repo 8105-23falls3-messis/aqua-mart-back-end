@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.aqua.fall23g1.constant.Status;
+import com.aqua.fall23g1.entity.Country;
 import com.aqua.fall23g1.entity.LoginReq;
+import com.aqua.fall23g1.entity.Province;
 import com.aqua.fall23g1.entity.Role;
 import com.aqua.fall23g1.entity.TokenHistory;
 import com.aqua.fall23g1.entity.User;
@@ -107,6 +109,20 @@ public class UserController {
     public JSONObject updateUser(@RequestBody User user) {
         userService.updateUser(user);
         return JSONUtil.resp(Status.SUCCESS, "success", user);
+    }
+    
+    @Operation(summary ="Get all roles without param")
+    @GetMapping("countries")
+    public JSONObject getCountries() {
+        List<Country> roles = userService.getCountries();
+        return JSONUtil.resp(Status.SUCCESS, "success", roles);
+    }
+    
+    @Operation(summary ="Get all roles without param")
+    @GetMapping("provinces")
+    public JSONObject getStates() {
+        List<Province> roles = userService.getProvinces();
+        return JSONUtil.resp(Status.SUCCESS, "success", roles);
     }
 
     // for Cynthia

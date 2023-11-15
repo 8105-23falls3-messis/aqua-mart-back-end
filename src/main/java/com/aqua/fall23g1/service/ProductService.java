@@ -13,7 +13,11 @@ public interface ProductService {
 	void deleteProduct(int id);
 
 	List<Product> listProducts(TestReqParam param);
+	
+	List<Category> listCategories();
 
 	Product getProduct(int id);
+	
+	void addImageToProduct(Image image);
 
 }

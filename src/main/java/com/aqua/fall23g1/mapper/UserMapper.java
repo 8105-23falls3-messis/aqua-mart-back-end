@@ -5,7 +5,9 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import com.aqua.fall23g1.entity.Country;
 import com.aqua.fall23g1.entity.LoginReq;
+import com.aqua.fall23g1.entity.Province;
 import com.aqua.fall23g1.entity.Role;
 import com.aqua.fall23g1.entity.TokenHistory;
 import com.aqua.fall23g1.entity.User;
@@ -34,4 +36,8 @@ public interface UserMapper {
     void insertUserRole(@Param("userId") int userId, @Param("idRole") int idRole);
 
     List<Role> getRolesByUserId(int userId);
+    
+    List<Country> getCountries();
+    
+    List<Province> getProvinces();
 }

@@ -17,7 +17,7 @@ public class Fall23g1Application  implements CommandLineRunner {
 	ImageStorageService storageService;
 
     public static void main(String[] args) {
-        SpringApplication.run(Fall23g1Application.class, args);
+        SpringApplication.run(com.aqua.fall23g1.Fall23g1Application.class, args);
     }
 
     @Override

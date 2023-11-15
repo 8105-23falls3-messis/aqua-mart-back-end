@@ -10,7 +10,6 @@
 		description,
 		cost,
 		idUser,
-		idImage,
 		idCategory,
 		active)
 		VALUES (#{title},
@@ -18,9 +17,10 @@
 		#{description},
 		#{cost},
 		#{user.id},
-		#{image.id},
 		#{category.id},
 		#{active})
+		
+		
 	</insert>
 
 	<update id="updateProductData">
@@ -175,5 +175,33 @@
 		AND p.active=1
 		AND p.id = #{id}
 	</select>
+
+	<select id="getCategories"
+		resultType="com.aqua.fall23g1.entity.Category">
+		SELECT c.id AS id,
+		c.name AS name
+		FROM category c
+	</select>
+	
+		<insert id="addImageToProduct" useGeneratedKeys="true"
+		keyProperty="id" keyColumn="id">
+		INSERT INTO image
+		(title,
+		brand,
+		description,
+		cost,
+		idUser,
+		idCategory,
+		active)
+		VALUES (#{title},
+		#{brand},
+		#{description},
+		#{cost},
+		#{user.id},
+		#{category.id},
+		#{active})
+		
+		
+	</insert>
 
 </mapper>

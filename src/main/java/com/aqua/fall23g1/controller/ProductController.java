@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.aqua.fall23g1.constant.Status;
+import com.aqua.fall23g1.entity.Category;
+import com.aqua.fall23g1.entity.Image;
 import com.aqua.fall23g1.entity.Product;
 import com.aqua.fall23g1.entity.TestReqParam;
 import com.aqua.fall23g1.service.ImageStorageService;
@@ -39,9 +41,16 @@ public class ProductController {
 	private Logger logger = LoggerFactory.getLogger(ProductController.class);
 
 	@Operation(summary ="Get all products")
-	@GetMapping("list")
+	@GetMapping("products")
 	public JSONObject getAllProducts(@RequestBody TestReqParam param) {
 		List<Product> products = productService.listProducts(param);
+		return JSONUtil.resp(Status.SUCCESS, "success", products);
+	}
+	
+	@Operation(summary ="Get all categories")
+	@GetMapping("categories")
+	public JSONObject getAllCategories() {
+		List<Category> products = productService.listCategories();
 		return JSONUtil.resp(Status.SUCCESS, "success", products);
 	}
 
@@ -66,6 +75,32 @@ public class ProductController {
 		return resp;
 	}
 
+	
+	@Operation(summary ="Add Image to product" , description ="To add an image to a product, an image information must be sent")
+	@PostMapping("addImage")
+	public JSONObject addImageToProduct(@RequestBody List<Image>listaImages) {
+		JSONObject resp;
+		JSONObject body = new JSONObject();
+
+		try {
+			
+			for(Image image: listaImages)
+			{
+				productService.addImageToProduct(image);
+				body.put("add", true);
+			}
+
+			resp = JSONUtil.resp(Status.SUCCESS, "Image Added successfully.", body);
+		} catch (Exception ex) {
+			body.put("add", false);
+			body.put("message", ex.getMessage());
+			resp = JSONUtil.resp(Status.FAILED, "Image Added failed.", body);
+			logger.info(ex.getMessage());
+
+		}
+		return resp;
+	}
+	
 	@Operation(summary ="Update product")
 	@PutMapping("update")
 	public JSONObject updateProduct(@RequestBody Product product) {
@@ -94,8 +129,8 @@ public class ProductController {
 		body.put("id", id);
 		try {
 			Product product =productService.getProduct(id);			
-			productService.deleteProduct(id);
-			imageStorageService.deleteId(product.getImage().getId());
+			productService.deleteProduct(id);			
+			imageStorageService.deleteId(product.getId());
 			body.put("delete", true);
 			resp = JSONUtil.resp(Status.SUCCESS, "Deleted successfully.", body);
 			logger.info("Product " + id + " deleted successfully");

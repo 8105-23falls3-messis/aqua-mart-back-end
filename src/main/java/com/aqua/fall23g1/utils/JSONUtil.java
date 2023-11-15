@@ -12,14 +12,12 @@ public class JSONUtil {
         return resp;
     }
     
-    public static JSONObject respImage(int status, String msg, Object obj, String originalFilename,String type, Long size) {
+    public static JSONObject respImage(int status, String msg, Object obj, String originalFilename) {
         JSONObject resp = new JSONObject();
         resp.put("status", status);
         resp.put("msg", msg);
         resp.put("content", obj);
         resp.put("filename", originalFilename);
-        resp.put("type", type);
-        resp.put("size", size);
         return resp;
     }
 }

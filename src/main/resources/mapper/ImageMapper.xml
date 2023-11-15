@@ -7,10 +7,14 @@
     	INSERT INTO image
     	(name,
     	type,
-    	url)
+    	url,
+    	cover,
+    	idProduct)
     	VALUES (#{fileName},
     	#{type},
-    	#{url})
+    	#{url},
+    	#{cover},
+    	#{product.id})
 	    <selectKey keyProperty="id" resultType="int" order="AFTER">
 	        SELECT LAST_INSERT_ID();
 	       </selectKey>
@@ -19,7 +23,7 @@
       <delete id="deleteImageData">
         DELETE
         FROM image
-        WHERE id = #{id}
+        WHERE idProduct = #{id}
     </delete>    
 
 </mapper>

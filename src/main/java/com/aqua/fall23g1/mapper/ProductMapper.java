@@ -3,6 +3,9 @@ package com.aqua.fall23g1.mapper;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
+
+import com.aqua.fall23g1.entity.Category;
+import com.aqua.fall23g1.entity.Image;
 import com.aqua.fall23g1.entity.Product;
 
 @Repository
@@ -15,6 +18,8 @@ public interface ProductMapper {
     boolean deleteProductData(int id);
 
     List<Product> getProducts();
+    
+    List<Category>getCategories();
     
     Product getProduct(int id);
 

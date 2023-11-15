@@ -1,5 +1,8 @@
 package com.aqua.fall23g1.controller;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -39,20 +42,28 @@ public class ImageController {
 
 	private Logger logger = LoggerFactory.getLogger(ImageController.class);
 
-    @Operation(summary ="Upload File")
+    @Operation(summary ="Upload several Files")
 	@PostMapping("upload")
-	public JSONObject uploadFile(@RequestBody MultipartFile file) {
+	public JSONObject uploadFile(@RequestBody MultipartFile [] files) {
 		String message = "";
-		JSONObject resp;
+		JSONObject resp;	
 		JSONObject body = new JSONObject();
 
 		try {
-			storageService.save(file);
+			
+			List<String> fileNames = new ArrayList<>();
+			
+		      Arrays.asList(files).stream().forEach(file -> {
+		          storageService.save(file);
+		          fileNames.add(file.getOriginalFilename());
+		        });
 
-			message = "Uploaded the file successfully: " + file.getOriginalFilename();
-			resp = JSONUtil.respImage(Status.SUCCESS, " Upload success", message,file.getOriginalFilename(),file.getContentType(), file.getSize() );
+			message = "Uploaded the files successfully: " + fileNames ;
+			resp = JSONUtil.respImage(Status.SUCCESS, " Upload success", message,fileNames.toString() );
 		} catch (Exception e) {
-			message = "Could not upload the file: " + file.getOriginalFilename() + ". Error: " + e.getMessage();
+			
+			
+			message = "Could not upload the files: " + ". Error: " + e.getMessage();
 			body.put("upload", false);
 			body.put("message", message);
 			resp = JSONUtil.resp(Status.FAILED, "Upload failed.", body);

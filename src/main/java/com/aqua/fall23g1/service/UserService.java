@@ -2,7 +2,9 @@ package com.aqua.fall23g1.service;
 
 import java.util.List;
 
+import com.aqua.fall23g1.entity.Country;
 import com.aqua.fall23g1.entity.LoginReq;
+import com.aqua.fall23g1.entity.Province;
 import com.aqua.fall23g1.entity.Role;
 import com.aqua.fall23g1.entity.TokenHistory;
 import com.aqua.fall23g1.entity.User;
@@ -16,6 +18,10 @@ public interface UserService {
     User getUserByLoginData(LoginReq loginReq);
 
     List<Role> getAllRoles();
+    
+    List<Country> getCountries();
+    
+    List<Province> getProvinces();
 
     // List<Role> getAllRolesByPage(TestReqParam param);
 
