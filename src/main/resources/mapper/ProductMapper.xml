@@ -64,6 +64,7 @@
 			<result property="fileName" column="imageName" />
 			<result property="type" column="imageType" />
 			<result property="url" column="imageURL" />
+			<result property="cover" column="cover" />
 		</association>
 		<association property="category" javaType="Category">
 			<result property="id" column="categoryID" />
@@ -98,11 +99,12 @@
 		i.name AS imageName,
 		i.type AS imageType,
 		i.url AS imageURL,
+		i.cover AS cover,
 		c.id AS categoryID,
 		c.name AS categoryName
 		FROM product p, user u, image i, category c
 		WHERE p.idUser=u.id
-		AND p.idImage=i.id
+		AND p.id=i.idProduct
 		AND p.idCategory=c.id
 		AND p.active=1
 	</select>
