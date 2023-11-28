@@ -41,7 +41,7 @@ public class ProductController {
 	private Logger logger = LoggerFactory.getLogger(ProductController.class);
 
 	@Operation(summary ="Get all products")
-	@GetMapping("products")
+	@PostMapping("products")
 	public JSONObject getAllProducts(@RequestBody TestReqParam param) {
 		List<Product> products = productService.listProducts(param);
 		return JSONUtil.resp(Status.SUCCESS, "success", products);
