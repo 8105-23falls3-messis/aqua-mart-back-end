@@ -63,6 +63,7 @@ public class LoginConfig implements WebMvcConfigurer {
         excludePath.add("/*.ico");
         excludePath.add("/*.txt");
         excludePath.add("/image/upload");
+        excludePath.add("/image/files/**");
         registry.addInterceptor(userLoginInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns(excludePath);
