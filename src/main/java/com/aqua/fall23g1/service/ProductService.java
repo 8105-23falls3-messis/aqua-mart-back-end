@@ -19,5 +19,7 @@ public interface ProductService {
 	Product getProduct(int id);
 	
 	void addImageToProduct(Image image);
+	
+	List<Product> getProductsByUser(int idUser);
 
 }

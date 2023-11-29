@@ -26,7 +26,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import com.alibaba.fastjson2.JSONObject;
 import com.aqua.fall23g1.constant.Status;
 import com.aqua.fall23g1.entity.Image;
-import com.aqua.fall23g1.service.ImageStorageService;
+import com.aqua.fall23g1.service.ImageService;
 import com.aqua.fall23g1.utils.JSONUtil;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,7 +38,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class ImageController {
 
 	@Autowired
-	ImageStorageService storageService;
+	ImageService storageService;
 
 	private Logger logger = LoggerFactory.getLogger(ImageController.class);
 

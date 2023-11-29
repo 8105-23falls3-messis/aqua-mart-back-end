@@ -25,5 +25,34 @@
         FROM image
         WHERE idProduct = #{id}
     </delete>    
+    
+
+
+	<resultMap id="imageMapList" type="java.util.Map">
+		<id property="id" column="id" />
+
+		<result property="fileName" column="fileName" />
+		<result property="type" column="type" />
+		<result property="url" column="url" />
+		<result property="cover" column="cover" />
+	</resultMap>
+
+
+	<select id="getImagesByProduct"
+		resultType="com.aqua.fall23g1.entity.Image"
+		resultMap="imageMapList">
+		SELECT i.id AS id,
+		i.name AS fileName,
+		i.type AS type,
+		i.url AS url,
+		i.cover AS cover
+		FROM product p, image i
+		WHERE p.id=i.idProduct
+		AND p.active=1
+		AND p.id = #{idProduct}
+	</select>
+    
+    
+    
 
 </mapper>

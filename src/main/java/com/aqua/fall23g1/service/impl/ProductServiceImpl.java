@@ -75,5 +75,10 @@ public class ProductServiceImpl implements ProductService {
 		imageMapper.insertImageData( image);
 		
 	}
+
+	@Override
+	public List<Product> getProductsByUser(int idUser) {
+		return productMapper.getProductsByUser(idUser);
+	}
 	
 }

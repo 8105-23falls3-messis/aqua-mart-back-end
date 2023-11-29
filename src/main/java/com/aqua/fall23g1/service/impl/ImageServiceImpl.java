@@ -1,7 +1,8 @@
 package com.aqua.fall23g1.service.impl;
 
+import com.aqua.fall23g1.entity.Image;
 import com.aqua.fall23g1.mapper.ImageMapper;
-import com.aqua.fall23g1.service.ImageStorageService;
+import com.aqua.fall23g1.service.ImageService;
 
 
 import java.io.IOException;
@@ -10,6 +11,7 @@ import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
@@ -20,7 +22,7 @@ import org.springframework.util.FileSystemUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
-public class ImageStorageServiceImpl implements ImageStorageService{
+public class ImageServiceImpl implements ImageService{
 	
 	private final Path root = Paths.get("uploads");
 	
@@ -82,6 +84,11 @@ public class ImageStorageServiceImpl implements ImageStorageService{
 	@Override
 	public void deleteId(int id) {
 		imageMapper.deleteImageData(id);
+	}
+
+	@Override
+	public List<Image>getImageByProduct(int idProduct) {
+		return imageMapper.getImagesByProduct(idProduct);	
 	}
 
 }

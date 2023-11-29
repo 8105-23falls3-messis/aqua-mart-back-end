@@ -20,7 +20,7 @@ import com.aqua.fall23g1.entity.Category;
 import com.aqua.fall23g1.entity.Image;
 import com.aqua.fall23g1.entity.Product;
 import com.aqua.fall23g1.entity.TestReqParam;
-import com.aqua.fall23g1.service.ImageStorageService;
+import com.aqua.fall23g1.service.ImageService;
 import com.aqua.fall23g1.service.ProductService;
 import com.aqua.fall23g1.utils.JSONUtil;
 
@@ -36,7 +36,7 @@ public class ProductController {
 	private ProductService productService;
 	
 	@Autowired
-	private ImageStorageService imageStorageService;
+	private ImageService imageService;
 
 	private Logger logger = LoggerFactory.getLogger(ProductController.class);
 
@@ -44,7 +44,41 @@ public class ProductController {
 	@PostMapping("products")
 	public JSONObject getAllProducts(@RequestBody TestReqParam param) {
 		List<Product> products = productService.listProducts(param);
+		
+		products.forEach(product -> {
+			product.setImages(imageService.getImageByProduct(product.getId()));
+		});
 		return JSONUtil.resp(Status.SUCCESS, "success", products);
+	}
+	
+	@Operation(summary ="Get products by user")
+	@GetMapping("getByUser/{idUser}")
+	public JSONObject getProductsByUser(@PathVariable("idUser") int idUser) {
+		JSONObject resp;
+		JSONObject body = new JSONObject();
+		body.put("id", idUser);
+
+		try {
+			List<Product> products = productService.getProductsByUser(idUser);
+			
+			products.forEach(product -> {
+				product.setImages(imageService.getImageByProduct(product.getId()));
+			});
+			
+			body.put("products", products);
+			if (products.isEmpty()) {
+				resp = JSONUtil.resp(Status.FAILED, "Products Not found for the user.", body);			
+			}else {
+				resp = JSONUtil.resp(Status.SUCCESS, "Get successfully.", body);
+				logger.info("Products for user :  " + idUser + " deleted successfully");				
+			}
+		} catch (Exception ex) {
+			body.put("product", null);
+			body.put("message", ex.getMessage());
+			resp = JSONUtil.resp(Status.FAILED, "Get failed.", body);
+			logger.info(ex.getMessage());
+		}
+		return resp;
 	}
 	
 	@Operation(summary ="Get all categories")
@@ -130,7 +164,7 @@ public class ProductController {
 		try {
 			Product product =productService.getProduct(id);			
 			productService.deleteProduct(id);			
-			imageStorageService.deleteId(product.getId());
+			imageService.deleteId(product.getId());
 			body.put("delete", true);
 			resp = JSONUtil.resp(Status.SUCCESS, "Deleted successfully.", body);
 			logger.info("Product " + id + " deleted successfully");
