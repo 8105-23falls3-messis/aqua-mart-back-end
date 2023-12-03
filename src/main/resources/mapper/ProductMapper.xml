@@ -120,12 +120,6 @@
 			<result property="password" column="userPassword" />
 			<result property="idRole" column="userRoleId" />
 		</association>
-		<association property="image" javaType="Image">
-			<result property="id" column="imageID" />
-			<result property="fileName" column="imageName" />
-			<result property="type" column="imageType" />
-			<result property="url" column="imageURL" />
-		</association>
 		<association property="category" javaType="Category">
 			<result property="id" column="categoryID" />
 			<result property="name" column="categoryName" />
@@ -152,15 +146,10 @@
 		u.postal_code AS userPostalCode,
 		u.password AS userPassword,
 		u.id_role AS userRoleId,
-		i.id AS imageID,
-		i.name AS imageName,
-		i.type AS imageType,
-		i.url AS imageURL,
 		c.id AS categoryID,
 		c.name AS categoryName
-		FROM product p, user u, image i, category c
+		FROM product p, user u, category c
 		WHERE p.idUser=u.id
-		AND p.idImage=i.id
 		AND p.idCategory=c.id
 		AND p.active=1
 		AND p.id = #{id}

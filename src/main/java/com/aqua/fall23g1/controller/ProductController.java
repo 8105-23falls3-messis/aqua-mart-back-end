@@ -186,7 +186,9 @@ public class ProductController {
 
 		try {
 			Product product = productService.getProduct(id);
+			product.setImages(imageService.getImageByProduct(product.getId()));
 			body.put("product", product);
+			
 			if (product==null) {
 				resp = JSONUtil.resp(Status.FAILED, "Product Not found.", body);			
 			}else {
