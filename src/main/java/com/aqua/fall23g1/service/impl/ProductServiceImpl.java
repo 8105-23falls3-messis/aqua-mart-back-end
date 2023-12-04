@@ -7,11 +7,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import com.aqua.fall23g1.controller.ImageController;
-import com.aqua.fall23g1.entity.*;
+import com.aqua.fall23g1.entity.Category;
+import com.aqua.fall23g1.entity.Image;
+import com.aqua.fall23g1.entity.Product;
+import com.aqua.fall23g1.entity.TestReqParam;
 import com.aqua.fall23g1.mapper.ImageMapper;
 import com.aqua.fall23g1.mapper.ProductMapper;
 import com.aqua.fall23g1.service.ProductService;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -51,9 +55,10 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> listProducts(TestReqParam param) {
+    public PageInfo<Product> listProducts(TestReqParam param) {
 		PageHelper.startPage(param.getPageNum(),param.getPageSize());
-		return productMapper.getProducts();
+        List<Product> products = productMapper.getProducts();
+        return new PageInfo<>(products);
 	}
 
 	@Override

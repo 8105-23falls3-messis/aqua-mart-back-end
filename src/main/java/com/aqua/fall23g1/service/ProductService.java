@@ -2,7 +2,11 @@ package com.aqua.fall23g1.service;
 
 import java.util.List;
 
-import com.aqua.fall23g1.entity.*;
+import com.aqua.fall23g1.entity.Category;
+import com.aqua.fall23g1.entity.Image;
+import com.aqua.fall23g1.entity.Product;
+import com.aqua.fall23g1.entity.TestReqParam;
+import com.github.pagehelper.PageInfo;
 
 public interface ProductService {
 
@@ -12,7 +16,7 @@ public interface ProductService {
 
 	void deleteProduct(int id);
 
-	List<Product> listProducts(TestReqParam param);
+    PageInfo<Product> listProducts(TestReqParam param);
 	
 	List<Category> listCategories();
 

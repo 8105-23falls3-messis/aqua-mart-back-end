@@ -5,14 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.aqua.fall23g1.constant.Status;
@@ -23,6 +16,7 @@ import com.aqua.fall23g1.entity.TestReqParam;
 import com.aqua.fall23g1.service.ImageService;
 import com.aqua.fall23g1.service.ProductService;
 import com.aqua.fall23g1.utils.JSONUtil;
+import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -43,9 +37,9 @@ public class ProductController {
 	@Operation(summary ="Get all products")
 	@PostMapping("products")
 	public JSONObject getAllProducts(@RequestBody TestReqParam param) {
-		List<Product> products = productService.listProducts(param);
+        PageInfo<Product> products = productService.listProducts(param);
 		
-		products.forEach(product -> {
+        products.getList().forEach(product -> {
 			product.setImages(imageService.getImageByProduct(product.getId()));
 		});
 		return JSONUtil.resp(Status.SUCCESS, "success", products);
