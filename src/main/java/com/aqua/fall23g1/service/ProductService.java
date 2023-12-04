@@ -2,6 +2,8 @@ package com.aqua.fall23g1.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.aqua.fall23g1.entity.Category;
 import com.aqua.fall23g1.entity.Image;
 import com.aqua.fall23g1.entity.Product;
@@ -23,6 +25,8 @@ public interface ProductService {
 	Product getProduct(int id);
 	
 	void addImageToProduct(Image image);
+	
+	void addImagePathToProduct(MultipartFile newImage, Product product);
 	
 	List<Product> getProductsByUser(int idUser);
 

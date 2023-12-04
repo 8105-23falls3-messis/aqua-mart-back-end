@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import com.aqua.fall23g1.controller.ImageController;
@@ -31,17 +32,33 @@ public class ProductServiceImpl implements ProductService {
 		
 		productMapper.insertProductData(product);
 		
-		for(Image newImage: product.getImages()) {
+//		for(Image newImage: product.getImages()) {
+//			String url = MvcUriComponentsBuilder
+//					.fromMethodName(ImageController.class, "getFile", newImage.getFileName().toString()).build().toString();
+//			Image image =new Image();
+//			image.setCover(false);
+//			image.setFileName(newImage.getFileName());
+//			image.setType(newImage.getType());
+//			image.setUrl(url);
+//			image.setProduct(product);	
+//			imageMapper.insertImageData(image);
+//		}
+	}
+	
+	@Override
+	public void addImagePathToProduct(MultipartFile newImage, Product product) {
+		
+
 			String url = MvcUriComponentsBuilder
-					.fromMethodName(ImageController.class, "getFile", newImage.getFileName().toString()).build().toString();
+					.fromMethodName(ImageController.class, "getFile", product.getId(),newImage.getOriginalFilename().toString()).build().toString();
 			Image image =new Image();
 			image.setCover(false);
-			image.setFileName(newImage.getFileName());
-			image.setType(newImage.getType());
+			image.setFileName(newImage.getOriginalFilename());
+			image.setType(newImage.getContentType());
 			image.setUrl(url);
 			image.setProduct(product);	
 			imageMapper.insertImageData(image);
-		}
+		
 	}
 
 	@Override

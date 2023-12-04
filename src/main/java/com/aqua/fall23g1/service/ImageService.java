@@ -13,9 +13,9 @@ public interface ImageService {
 	
 	  public void init();
 
-	  public void save(MultipartFile file);
+	  public void save(MultipartFile file,  int idProduct);
 
-	  public Resource load(String filename);
+	  public Resource load(int idProduct,String filename);
 
 	  public void deleteAll();
 

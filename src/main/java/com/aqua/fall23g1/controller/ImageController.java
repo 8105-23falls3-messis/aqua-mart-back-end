@@ -1,6 +1,5 @@
 package com.aqua.fall23g1.controller;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -26,6 +25,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import com.alibaba.fastjson2.JSONObject;
 import com.aqua.fall23g1.constant.Status;
 import com.aqua.fall23g1.entity.Image;
+import com.aqua.fall23g1.entity.TestReqParam;
 import com.aqua.fall23g1.service.ImageService;
 import com.aqua.fall23g1.utils.JSONUtil;
 
@@ -38,13 +38,13 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 public class ImageController {
 
 	@Autowired
-	ImageService storageService;
+	ImageService imageService;
 
 	private Logger logger = LoggerFactory.getLogger(ImageController.class);
 
     @Operation(summary ="Upload several Files")
-	@PostMapping("upload")
-	public JSONObject uploadFile(@RequestBody MultipartFile [] files) {
+	@PostMapping("upload/{idProduct}")
+	public JSONObject uploadFile(@RequestBody MultipartFile [] files, @PathVariable("idProduct") int idProduct) {
 		String message = "";
 		JSONObject resp;	
 		JSONObject body = new JSONObject();
@@ -54,7 +54,7 @@ public class ImageController {
 			List<String> fileNames = new ArrayList<>();
 			
 		      Arrays.asList(files).stream().forEach(file -> {
-		          storageService.save(file);
+		          imageService.save(file,idProduct);
 		          fileNames.add(file.getOriginalFilename());
 		        });
 
@@ -75,7 +75,7 @@ public class ImageController {
     @Operation(summary ="Get Files")
 	@GetMapping("files")
 	public ResponseEntity<List<Image>> getListFiles() {
-		List<Image> fileInfos = storageService.loadAll().map(path -> {
+		List<Image> fileInfos = imageService.loadAll().map(path -> {
 			String filename = path.getFileName().toString();
 			String url = MvcUriComponentsBuilder
 					.fromMethodName(ImageController.class, "getFile", path.getFileName().toString()).build().toString();
@@ -86,10 +86,10 @@ public class ImageController {
 		return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
 	}
 
-	@GetMapping("/files/{filename:.+}")
+	@GetMapping("/files/{idProduct}/{filename:.+}")
 	@ResponseBody
-	public ResponseEntity<Resource> getFile(@PathVariable String filename) {
-		Resource file = storageService.load(filename);
+	public ResponseEntity<Resource> getFile(@PathVariable int idProduct, @PathVariable String filename) {
+		Resource file = imageService.load(idProduct,filename);
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
 				.body(file);

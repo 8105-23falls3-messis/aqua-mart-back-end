@@ -1,11 +1,14 @@
 package com.aqua.fall23g1.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.aqua.fall23g1.constant.Status;
@@ -84,13 +87,28 @@ public class ProductController {
 
 	@Operation(summary ="Add product" , description ="To add a product, an image information must be sent")
 	@PostMapping("add")
-	public JSONObject addProduct(@RequestBody Product product) {
+	public JSONObject addProduct(@RequestPart Product product, @RequestPart MultipartFile [] files) {
 		JSONObject resp;
 		JSONObject body = new JSONObject();
 
 		try {
 			product.setActive(true);
 			productService.addProduct(product);
+			
+			//imag
+			
+			List<String> fileNames = new ArrayList<>();
+			
+		      Arrays.asList(files).stream().forEach(file -> {
+		          imageService.save(file,product.getId());
+		          productService.addImagePathToProduct(file, product);
+		          fileNames.add(file.getOriginalFilename());
+		        });
+
+			//message = "Uploaded the files successfully: " + fileNames ;
+			//resp = JSONUtil.respImage(Status.SUCCESS, " Upload success", message,fileNames.toString() );
+			
+			
 			body.put("add", true);
 			resp = JSONUtil.resp(Status.SUCCESS, "Added successfully.", body);
 		} catch (Exception ex) {
