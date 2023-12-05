@@ -31,9 +31,17 @@ public class ProductServiceImpl implements ProductService {
 	public void addProduct(Product product) {
 		
 		productMapper.insertProductData(product);
-		
+		String[] split;
 		for(Image newImage: product.getImages()) {
-			String[] split  = newImage.getUrl().split("\\\\");
+			
+			if (newImage.getUrl().contains("/")) {
+				split  = newImage.getUrl().split("/");		
+			}else {
+				split  = newImage.getUrl().split("\\\\");				
+			}
+
+			
+			
 			String url = MvcUriComponentsBuilder
 					.fromMethodName(ImageController.class, "getFile",split[1] , newImage.getFileName().toString()).build().toString();
 			Image image =new Image();

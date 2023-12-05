@@ -4,7 +4,7 @@ import com.aqua.fall23g1.entity.Image;
 import com.aqua.fall23g1.mapper.ImageMapper;
 import com.aqua.fall23g1.service.ImageService;
 
-
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.FileAlreadyExistsException;
@@ -45,6 +45,10 @@ public class ImageServiceImpl implements ImageService{
 	    try {
 	    	Path path=  Paths.get(root +"/" + timestamp);
 	    	Files.createDirectories(path);
+	    	System.out.println("Directory is created!");
+	    	
+	    	System.out.println("PATH NAME" + path.getFileName());
+	    	System.out.println("PATH NAME" + path.getRoot());
 	    	
 	      Files.copy(file.getInputStream(),path.resolve(file.getOriginalFilename()));
 	      image = new Image(file.getOriginalFilename(),path.resolve(file.getOriginalFilename()).toString(),file.getContentType());
