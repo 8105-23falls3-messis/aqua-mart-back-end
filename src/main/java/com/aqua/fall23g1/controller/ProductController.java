@@ -32,24 +32,24 @@ public class ProductController {
 
 	@Autowired
 	private ProductService productService;
-	
+
 	@Autowired
 	private ImageService imageService;
 
 	private Logger logger = LoggerFactory.getLogger(ProductController.class);
 
-	@Operation(summary ="Get all products")
+	@Operation(summary = "Get all products")
 	@PostMapping("products")
 	public JSONObject getAllProducts(@RequestBody TestReqParam param) {
-        PageInfo<Product> products = productService.listProducts(param);
-		
-        products.getList().forEach(product -> {
+		PageInfo<Product> products = productService.listProducts(param);
+
+		products.getList().forEach(product -> {
 			product.setImages(imageService.getImageByProduct(product.getId()));
 		});
 		return JSONUtil.resp(Status.SUCCESS, "success", products);
 	}
-	
-	@Operation(summary ="Get products by user")
+
+	@Operation(summary = "Get products by user")
 	@GetMapping("getByUser/{idUser}")
 	public JSONObject getProductsByUser(@PathVariable("idUser") int idUser) {
 		JSONObject resp;
@@ -58,17 +58,17 @@ public class ProductController {
 
 		try {
 			List<Product> products = productService.getProductsByUser(idUser);
-			
+
 			products.forEach(product -> {
 				product.setImages(imageService.getImageByProduct(product.getId()));
 			});
-			
+
 			body.put("products", products);
 			if (products.isEmpty()) {
-				resp = JSONUtil.resp(Status.FAILED, "Products Not found for the user.", body);			
-			}else {
+				resp = JSONUtil.resp(Status.FAILED, "Products Not found for the user.", body);
+			} else {
 				resp = JSONUtil.resp(Status.SUCCESS, "Get successfully.", body);
-				logger.info("Products for user :  " + idUser + " deleted successfully");				
+				logger.info("Products for user :  " + idUser + " deleted successfully");
 			}
 		} catch (Exception ex) {
 			body.put("product", null);
@@ -78,22 +78,23 @@ public class ProductController {
 		}
 		return resp;
 	}
-	
-	@Operation(summary ="Get all categories")
+
+	@Operation(summary = "Get all categories")
 	@GetMapping("categories")
 	public JSONObject getAllCategories() {
 		List<Category> products = productService.listCategories();
 		return JSONUtil.resp(Status.SUCCESS, "success", products);
 	}
 
-	@Operation(summary ="Add product" , description ="To add a product, an image information must be sent")
+	@Operation(summary = "Add product", description = "To add a product, an image information must be sent")
 	@PostMapping("add")
 	public JSONObject addProduct(@RequestBody Product product) {
 		JSONObject resp;
 		JSONObject body = new JSONObject();
-
 		try {
 			product.setActive(true);
+			product.setDescription(product.getDescription().replace("</p>", "").replace("<p>", ""));
+			// product.getDescription().replace("</p>", "").replace("<p>", "");
 			productService.addProduct(product);
 			body.put("add", true);
 			resp = JSONUtil.resp(Status.SUCCESS, "Added successfully.", body);
@@ -107,17 +108,15 @@ public class ProductController {
 		return resp;
 	}
 
-	
-	@Operation(summary ="Add Image to product" , description ="To add an image to a product, an image information must be sent")
+	@Operation(summary = "Add Image to product", description = "To add an image to a product, an image information must be sent")
 	@PostMapping("addImage")
-	public JSONObject addImageToProduct(@RequestBody List<Image>listaImages) {
+	public JSONObject addImageToProduct(@RequestBody List<Image> listaImages) {
 		JSONObject resp;
 		JSONObject body = new JSONObject();
 
 		try {
-			
-			for(Image image: listaImages)
-			{
+
+			for (Image image : listaImages) {
 				productService.addImageToProduct(image);
 				body.put("add", true);
 			}
@@ -132,8 +131,8 @@ public class ProductController {
 		}
 		return resp;
 	}
-	
-	@Operation(summary ="Update product")
+
+	@Operation(summary = "Update product")
 	@PutMapping("update")
 	public JSONObject updateProduct(@RequestBody Product product) {
 		JSONObject resp;
@@ -153,15 +152,15 @@ public class ProductController {
 		return resp;
 	}
 
-	@Operation(summary ="Delete product")
+	@Operation(summary = "Delete product")
 	@DeleteMapping("delete/{id}")
 	public JSONObject deleteProduct(@PathVariable("id") int id) {
 		JSONObject resp;
 		JSONObject body = new JSONObject();
 		body.put("id", id);
 		try {
-			Product product =productService.getProduct(id);			
-			productService.deleteProduct(id);			
+			Product product = productService.getProduct(id);
+			productService.deleteProduct(id);
 			imageService.deleteId(product.getId());
 			body.put("delete", true);
 			resp = JSONUtil.resp(Status.SUCCESS, "Deleted successfully.", body);
@@ -175,7 +174,7 @@ public class ProductController {
 		return resp;
 	}
 
-	@Operation(summary ="Get product")
+	@Operation(summary = "Get product")
 	@GetMapping("get/{id}")
 	public JSONObject getProduct(@PathVariable("id") int id) {
 		JSONObject resp;
@@ -186,12 +185,12 @@ public class ProductController {
 			Product product = productService.getProduct(id);
 			product.setImages(imageService.getImageByProduct(product.getId()));
 			body.put("product", product);
-			
-			if (product==null) {
-				resp = JSONUtil.resp(Status.FAILED, "Product Not found.", body);			
-			}else {
+
+			if (product == null) {
+				resp = JSONUtil.resp(Status.FAILED, "Product Not found.", body);
+			} else {
 				resp = JSONUtil.resp(Status.SUCCESS, "Get successfully.", body);
-				logger.info("Product " + id + " deleted successfully");				
+				logger.info("Product " + id + " deleted successfully");
 			}
 		} catch (Exception ex) {
 			body.put("product", null);
