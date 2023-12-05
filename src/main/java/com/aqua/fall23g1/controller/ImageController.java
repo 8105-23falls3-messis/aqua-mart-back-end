@@ -1,7 +1,9 @@
 package com.aqua.fall23g1.controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -42,27 +44,32 @@ public class ImageController {
 
 	private Logger logger = LoggerFactory.getLogger(ImageController.class);
 
-    @Operation(summary ="Upload several Files")
-	@PostMapping("upload/{idProduct}")
-	public JSONObject uploadFile(@RequestBody MultipartFile [] files, @PathVariable("idProduct") int idProduct) {
+	@Operation(summary = "Upload several Files")
+	@PostMapping("upload")
+	public JSONObject uploadFile(@RequestBody MultipartFile[] files) {
 		String message = "";
-		JSONObject resp;	
+		JSONObject resp;
 		JSONObject body = new JSONObject();
 
 		try {
-			
-			List<String> fileNames = new ArrayList<>();
-			
-		      Arrays.asList(files).stream().forEach(file -> {
-		          imageService.save(file,idProduct);
-		          fileNames.add(file.getOriginalFilename());
-		        });
 
-			message = "Uploaded the files successfully: " + fileNames ;
-			resp = JSONUtil.respImage(Status.SUCCESS, " Upload success", message,fileNames.toString() );
+			Date date = new Date();
+			Timestamp timestamp = new Timestamp(date.getTime());
+			List<Image> listImages = new ArrayList();
+			Image image;
+			List<String> fileNames = new ArrayList<>();
+
+			Arrays.asList(files).stream().forEach(file -> {
+				listImages.add(imageService.save(file, timestamp.getTime()));	
+				fileNames.add(file.getOriginalFilename());
+			});
+			
+			
+	
+			//message = "Uploaded the files successfully: " + fileNames;
+			resp = JSONUtil.respImage(Status.SUCCESS, " Upload success", listImages, fileNames.toString());
 		} catch (Exception e) {
-			
-			
+
 			message = "Could not upload the files: " + ". Error: " + e.getMessage();
 			body.put("upload", false);
 			body.put("message", message);
@@ -72,7 +79,7 @@ public class ImageController {
 		return resp;
 	}
 
-    @Operation(summary ="Get Files")
+	@Operation(summary = "Get Files")
 	@GetMapping("files")
 	public ResponseEntity<List<Image>> getListFiles() {
 		List<Image> fileInfos = imageService.loadAll().map(path -> {
@@ -86,13 +93,12 @@ public class ImageController {
 		return ResponseEntity.status(HttpStatus.OK).body(fileInfos);
 	}
 
-	@GetMapping("/files/{idProduct}/{filename:.+}")
+	@GetMapping("/files/{subfolder:.+}/{filename:.+}")
 	@ResponseBody
-	public ResponseEntity<Resource> getFile(@PathVariable int idProduct, @PathVariable String filename) {
-		Resource file = imageService.load(idProduct,filename);
+	public ResponseEntity<Resource> getFile(@PathVariable String subfolder, @PathVariable String filename) {
+		Resource file = imageService.load(subfolder,filename);
 		return ResponseEntity.ok()
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
 				.body(file);
 	}
-
 }

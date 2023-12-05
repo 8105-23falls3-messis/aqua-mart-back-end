@@ -39,13 +39,16 @@ public class ImageServiceImpl implements ImageService{
 	  }
 
 	  @Override
-	  public void save(MultipartFile file, int idProduct) {
+	  public Image save(MultipartFile file, Long timestamp) {
+		  Image image;
 		  //Files.createDirectories(root);
 	    try {
-	    	Path path=  Paths.get(root +"/" + idProduct);
+	    	Path path=  Paths.get(root +"/" + timestamp);
 	    	Files.createDirectories(path);
 	    	
 	      Files.copy(file.getInputStream(),path.resolve(file.getOriginalFilename()));
+	      image = new Image(file.getOriginalFilename(),path.resolve(file.getOriginalFilename()).toString(),file.getContentType());
+	      return image;
 	    } catch (Exception e) {
 	      if (e instanceof FileAlreadyExistsException) {
 	        throw new RuntimeException("A file of that name already exists.");
@@ -56,14 +59,10 @@ public class ImageServiceImpl implements ImageService{
 	  }
 
 	  @Override
-	  public Resource load(int idProduct,String filename) {
+	  public Resource load(String subfolder, String filename) {
 	    try {
-	    
-	    	Path path=  Paths.get(root +"/" + idProduct);
-	    	
-	      //Path file = root.resolve(filename);
-	      Path file = path.resolve(filename);
-
+	
+	      Path file = root.resolve(subfolder+ "/"+filename);
 	      Resource resource = new UrlResource(file.toUri());
 
 	      if (resource.exists() || resource.isReadable()) {

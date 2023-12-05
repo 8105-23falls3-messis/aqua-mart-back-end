@@ -11,7 +11,7 @@
     	cover,
     	idProduct)
     	VALUES (#{fileName},
-    	#{type},
+    	#{contenType},
     	#{url},
     	#{cover},
     	#{product.id})
@@ -32,7 +32,7 @@
 		<id property="id" column="id" />
 
 		<result property="fileName" column="fileName" />
-		<result property="type" column="type" />
+		<result property="type" column="contenType" />
 		<result property="url" column="url" />
 		<result property="cover" column="cover" />
 	</resultMap>

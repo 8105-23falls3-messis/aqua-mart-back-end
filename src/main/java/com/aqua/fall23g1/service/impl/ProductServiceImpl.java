@@ -32,17 +32,18 @@ public class ProductServiceImpl implements ProductService {
 		
 		productMapper.insertProductData(product);
 		
-//		for(Image newImage: product.getImages()) {
-//			String url = MvcUriComponentsBuilder
-//					.fromMethodName(ImageController.class, "getFile", newImage.getFileName().toString()).build().toString();
-//			Image image =new Image();
-//			image.setCover(false);
-//			image.setFileName(newImage.getFileName());
-//			image.setType(newImage.getType());
-//			image.setUrl(url);
-//			image.setProduct(product);	
-//			imageMapper.insertImageData(image);
-//		}
+		for(Image newImage: product.getImages()) {
+			String[] split  = newImage.getUrl().split("\\\\");
+			String url = MvcUriComponentsBuilder
+					.fromMethodName(ImageController.class, "getFile",split[1] , newImage.getFileName().toString()).build().toString();
+			Image image =new Image();
+			image.setCover(false);
+			image.setFileName(newImage.getFileName());
+			image.setContenType(newImage.getContenType());
+			image.setUrl(url);
+			image.setProduct(product);	
+			imageMapper.insertImageData(image);
+		}
 	}
 	
 	@Override
@@ -54,7 +55,7 @@ public class ProductServiceImpl implements ProductService {
 			Image image =new Image();
 			image.setCover(false);
 			image.setFileName(newImage.getOriginalFilename());
-			image.setType(newImage.getContentType());
+			image.setContenType(newImage.getContentType());
 			image.setUrl(url);
 			image.setProduct(product);	
 			imageMapper.insertImageData(image);

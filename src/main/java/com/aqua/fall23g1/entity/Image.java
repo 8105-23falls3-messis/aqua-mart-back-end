@@ -10,10 +10,16 @@ import lombok.NoArgsConstructor;
 public class Image {
 	  private int id;
 	  private String fileName;
-	  private String type;
+	  private String contenType;
 	  private String url;
 	  private Boolean cover;
 	  private Product product;
+	  
+	  public Image(String name, String url, String contenType) {
+		  this.fileName=name;
+		  this.url=url;
+		  this.contenType=contenType;
+	  }
 	  
 	  public Image(String name, String url) {
 		  this.fileName=name;
