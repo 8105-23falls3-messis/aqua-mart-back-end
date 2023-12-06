@@ -26,8 +26,8 @@
 	<update id="updateProductData">
 		UPDATE product
 		SET title=#{title}, brand=#{brand},description
-		=#{description},cost=#{cost}
-		WHERE id= #{id}
+		=#{description},cost=#{cost}, idCategory=#{category.id}
+		WHERE id= #{id} 
 	</update>
 
 	<delete id="deleteProductData">

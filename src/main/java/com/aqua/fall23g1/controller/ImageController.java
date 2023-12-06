@@ -27,7 +27,6 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import com.alibaba.fastjson2.JSONObject;
 import com.aqua.fall23g1.constant.Status;
 import com.aqua.fall23g1.entity.Image;
-import com.aqua.fall23g1.entity.TestReqParam;
 import com.aqua.fall23g1.service.ImageService;
 import com.aqua.fall23g1.utils.JSONUtil;
 
@@ -55,8 +54,7 @@ public class ImageController {
 
 			Date date = new Date();
 			Timestamp timestamp = new Timestamp(date.getTime());
-			List<Image> listImages = new ArrayList();
-			Image image;
+			List<Image> listImages = new ArrayList<Image>();
 			List<String> fileNames = new ArrayList<>();
 
 			Arrays.asList(files).stream().forEach(file -> {

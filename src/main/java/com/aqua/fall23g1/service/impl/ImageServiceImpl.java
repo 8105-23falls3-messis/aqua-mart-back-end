@@ -4,7 +4,6 @@ import com.aqua.fall23g1.entity.Image;
 import com.aqua.fall23g1.mapper.ImageMapper;
 import com.aqua.fall23g1.service.ImageService;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.FileAlreadyExistsException;

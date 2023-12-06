@@ -89,7 +89,10 @@ public class ProductController {
 		JSONObject body = new JSONObject();
 		try {
 			product.setActive(true);
-			product.setDescription(product.getDescription().replace("</p>", "").replace("<p>", ""));
+			if (product.getDescription()!=null) {
+				product.setDescription(product.getDescription().replace("</p>", "").replace("<p>", ""));				
+			}
+
 			// product.getDescription().replace("</p>", "").replace("<p>", "");
 			productService.addProduct(product);
 			body.put("add", true);
@@ -135,6 +138,9 @@ public class ProductController {
 		JSONObject body = new JSONObject();
 		body.put("id", product.getId());
 		try {
+			if (product.getDescription()!=null) {
+				product.setDescription(product.getDescription().replace("</p>", "").replace("<p>", ""));				
+			}
 			productService.updateProduct(product);
 			body.put("update", true);
 			resp = JSONUtil.resp(Status.SUCCESS, "Updated successfully.", body);
