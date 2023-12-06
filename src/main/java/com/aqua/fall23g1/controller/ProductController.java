@@ -1,22 +1,18 @@
 package com.aqua.fall23g1.controller;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.aqua.fall23g1.constant.Status;
 import com.aqua.fall23g1.entity.Category;
 import com.aqua.fall23g1.entity.Image;
 import com.aqua.fall23g1.entity.Product;
-import com.aqua.fall23g1.entity.TestReqParam;
+import com.aqua.fall23g1.entity.ProductListReqParam;
 import com.aqua.fall23g1.service.ImageService;
 import com.aqua.fall23g1.service.ProductService;
 import com.aqua.fall23g1.utils.JSONUtil;
@@ -40,7 +36,7 @@ public class ProductController {
 
 	@Operation(summary = "Get all products")
 	@PostMapping("products")
-	public JSONObject getAllProducts(@RequestBody TestReqParam param) {
+    public JSONObject getAllProducts(@RequestBody ProductListReqParam param) {
 		PageInfo<Product> products = productService.listProducts(param);
 
 		products.getList().forEach(product -> {

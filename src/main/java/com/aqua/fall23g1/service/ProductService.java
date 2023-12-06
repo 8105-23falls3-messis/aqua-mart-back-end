@@ -7,7 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.aqua.fall23g1.entity.Category;
 import com.aqua.fall23g1.entity.Image;
 import com.aqua.fall23g1.entity.Product;
-import com.aqua.fall23g1.entity.TestReqParam;
+import com.aqua.fall23g1.entity.ProductListReqParam;
 import com.github.pagehelper.PageInfo;
 
 public interface ProductService {
@@ -18,7 +18,7 @@ public interface ProductService {
 
 	void deleteProduct(int id);
 
-    PageInfo<Product> listProducts(TestReqParam param);
+    PageInfo<Product> listProducts(ProductListReqParam param);
 	
 	List<Category> listCategories();
 

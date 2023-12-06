@@ -94,7 +94,13 @@
 		WHERE p.idUser=u.id
 		AND p.idCategory=c.id
 		AND p.active=1
-        GROUP BY p.id,u.id,c.id
+		<if test="categoryId !=null and categoryId !=''">
+			AND p.idCategory = #{categoryId}
+		</if>
+		<if test="title !=null and title !=''">
+			AND p.title like CONCAT('%', #{title}, '%')
+		</if>
+		GROUP BY p.id,u.id,c.id
 	</select>
 
 	<resultMap id="productMap"

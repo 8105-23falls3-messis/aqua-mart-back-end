@@ -11,7 +11,7 @@ import com.aqua.fall23g1.controller.ImageController;
 import com.aqua.fall23g1.entity.Category;
 import com.aqua.fall23g1.entity.Image;
 import com.aqua.fall23g1.entity.Product;
-import com.aqua.fall23g1.entity.TestReqParam;
+import com.aqua.fall23g1.entity.ProductListReqParam;
 import com.aqua.fall23g1.mapper.ImageMapper;
 import com.aqua.fall23g1.mapper.ProductMapper;
 import com.aqua.fall23g1.service.ProductService;
@@ -81,9 +81,9 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-    public PageInfo<Product> listProducts(TestReqParam param) {
+    public PageInfo<Product> listProducts(ProductListReqParam param) {
 		PageHelper.startPage(param.getPageNum(),param.getPageSize());
-        List<Product> products = productMapper.getProducts();
+        List<Product> products = productMapper.getProducts(param);
         return new PageInfo<>(products);
 	}
 

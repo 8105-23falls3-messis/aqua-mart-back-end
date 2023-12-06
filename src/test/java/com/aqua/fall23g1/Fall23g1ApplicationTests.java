@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.aqua.fall23g1.entity.Product;
-import com.aqua.fall23g1.entity.TestReqParam;
+import com.aqua.fall23g1.entity.ProductListReqParam;
 import com.aqua.fall23g1.service.ProductService;
 import com.github.pagehelper.PageInfo;
 
@@ -17,11 +17,12 @@ class Fall23g1ApplicationTests {
 
     @Test
     void testPaginationOfProducts() {
-        TestReqParam testReqParam = new TestReqParam();
-        testReqParam.setPageNum(1);
-        testReqParam.setPageSize(10);
-        PageInfo<Product> productPageInfo = productService.listProducts(testReqParam);
-        System.out.println(productPageInfo);
+        ProductListReqParam param = new ProductListReqParam();
+        param.setPageNum(1);
+        param.setPageSize(10);
+        PageInfo<Product> productPageInfo = productService.listProducts(param);
+        System.out.println(productPageInfo.getList());
     }
+
 
 }

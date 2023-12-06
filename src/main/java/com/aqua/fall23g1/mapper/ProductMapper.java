@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.aqua.fall23g1.entity.Category;
 import com.aqua.fall23g1.entity.Product;
+import com.aqua.fall23g1.entity.ProductListReqParam;
 
 @Repository
 public interface ProductMapper {
@@ -16,7 +17,7 @@ public interface ProductMapper {
     
     boolean deleteProductData(int id);
 
-    List<Product> getProducts();
+    List<Product> getProducts(ProductListReqParam param);
     
     List<Category>getCategories();
     
