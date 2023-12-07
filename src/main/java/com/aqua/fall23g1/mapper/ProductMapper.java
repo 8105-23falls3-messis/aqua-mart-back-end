@@ -21,6 +21,8 @@ public interface ProductMapper {
     
     List<Category>getCategories();
     
+    Category getCategory(int idCateogry);
+    
     Product getProduct(int id);
     
     List<Product> getProductsByUser(int idUser);

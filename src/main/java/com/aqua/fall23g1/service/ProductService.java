@@ -21,6 +21,8 @@ public interface ProductService {
     PageInfo<Product> listProducts(ProductListReqParam param);
 	
 	List<Category> listCategories();
+	
+	Category getCategory(int idCategory);
 
 	Product getProduct(int id);
 	

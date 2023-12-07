@@ -82,6 +82,15 @@ public class ProductController {
 		return JSONUtil.resp(Status.SUCCESS, "success", products);
 	}
 
+	
+	@Operation(summary = "Get category by id")
+	@GetMapping("categories/{idCategory}")
+	public JSONObject getCategoryById(@PathVariable("idCategory") int idCategory) {
+		Category category = productService.getCategory(idCategory);
+		return JSONUtil.resp(Status.SUCCESS, "success", category);
+	}
+
+	
 	@Operation(summary = "Add product", description = "To add a product, an image information must be sent")
 	@PostMapping("add")
 	public JSONObject addProduct(@RequestBody Product product) {
@@ -89,9 +98,9 @@ public class ProductController {
 		JSONObject body = new JSONObject();
 		try {
 			product.setActive(true);
-			if (product.getDescription()!=null) {
-				product.setDescription(product.getDescription().replace("</p>", "").replace("<p>", ""));				
-			}
+			
+			this.removerTags(product);
+	
 
 			// product.getDescription().replace("</p>", "").replace("<p>", "");
 			productService.addProduct(product);
@@ -105,6 +114,13 @@ public class ProductController {
 
 		}
 		return resp;
+	}
+
+	public void removerTags(Product product) {
+		if (product.getDescription()!=null) {
+			product.setDescription(product.getDescription().replace("</p>", "").replace("<p>", ""));		
+			product.setDescription(product.getDescription().replace("</em>", "").replace("<em>", ""));		
+		}		
 	}
 
 	@Operation(summary = "Add Image to product", description = "To add an image to a product, an image information must be sent")
@@ -138,9 +154,8 @@ public class ProductController {
 		JSONObject body = new JSONObject();
 		body.put("id", product.getId());
 		try {
-			if (product.getDescription()!=null) {
-				product.setDescription(product.getDescription().replace("</p>", "").replace("<p>", ""));				
-			}
+			this.removerTags(product);
+
 			productService.updateProduct(product);
 			body.put("update", true);
 			resp = JSONUtil.resp(Status.SUCCESS, "Updated successfully.", body);

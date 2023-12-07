@@ -127,6 +127,11 @@ public class ProductServiceImpl implements ProductService {
 		// TODO Auto-generated method stub
 		return productMapper.getCategories();
 	}
+	
+	@Override
+	public Category getCategory(int idCategory) {
+		return productMapper.getCategory(idCategory);
+	}
 
 	@Override
 	public void addImageToProduct(Image image) {

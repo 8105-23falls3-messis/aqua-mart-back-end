@@ -168,7 +168,15 @@
 		FROM category c
 	</select>
 	
-		<insert id="addImageToProduct" useGeneratedKeys="true"
+	<select id="getCategory"
+		resultType="com.aqua.fall23g1.entity.Category">
+		SELECT c.id AS id,
+		c.name AS name
+		FROM category c
+		WHERE c.id = #{idCategory}
+	</select>
+	
+	<insert id="addImageToProduct" useGeneratedKeys="true"
 		keyProperty="id" keyColumn="id">
 		INSERT INTO image
 		(title,
